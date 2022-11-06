@@ -8,13 +8,14 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Address } from './address.entity';
+import { Comment } from './comment.entity';
 import { UserRole } from './enums';
 import { Order } from './order.entity';
 import { Pet } from './pet.entity';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn({ type: 'integer' })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @PrimaryColumn({ type: 'varchar', length: 250 })
@@ -37,9 +38,9 @@ export class User extends BaseEntity {
     enum: UserRole,
     default: UserRole.CLIENT,
   })
-  roles: UserRole[];
+  roles: UserRole;
 
-  @OneToMany(() => Pet, (pet) => pet.user)
+  @OneToMany(() => Pet, (pet) => pet.owner)
   pets: Pet[];
 
   @OneToMany(() => Address, (address) => address.owner)
@@ -47,4 +48,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Order, (order) => order.customer)
   orders: Order[];
+
+  @OneToMany(() => Comment, (comment) => comment.author)
+  comments: Comment[];
 }
