@@ -12,7 +12,7 @@ import { UserRole } from '../../utils/enums';
 import { Order } from './order.entity';
 import { Pet } from './pet.entity';
 
-@Entity({ name: 'users' })
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
