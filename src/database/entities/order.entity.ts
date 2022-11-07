@@ -16,10 +16,10 @@ export class Order {
   id: string;
 
   @Column({ type: 'date', nullable: true })
-  start_time?: Date;
+  start_time: Date | null;
 
   @Column({ type: 'date', nullable: true })
-  end_time?: Date;
+  end_time: Date | null;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
