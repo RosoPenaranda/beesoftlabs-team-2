@@ -9,8 +9,8 @@ import { User } from './user.entity';
 
 @Entity('addresses')
 export class Address {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ type: 'varchar', length: 250 })
   state: string;
@@ -24,18 +24,18 @@ export class Address {
   @Column({ type: 'varchar', length: 250 })
   remark: string;
 
-  @CreateDateColumn({ type: 'timestamp' })
-  created_at: Date;
+  @Column({ type: 'int' })
+  length: number;
 
   @Column({ type: 'int' })
-  longitud: number;
-
-  @Column({ type: 'int' })
-  latitud: number;
+  latitude: number;
 
   @Column({ type: 'int' })
   postal_code: number;
 
   @ManyToOne(() => User, (user) => user.addresses)
   owner: User;
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp'})
+  created_at: Date;
 }

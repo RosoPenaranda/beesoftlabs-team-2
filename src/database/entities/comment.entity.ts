@@ -10,13 +10,13 @@ import { User } from './user.entity';
 
 @Entity('comments')
 export class Comment {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   created_at: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn({ name: 'last_updated_at', type: 'timestamp' })
   last_updated_at: Date;
 
   @Column({ type: 'int' })

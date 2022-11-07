@@ -3,8 +3,8 @@ import { TypeOfService } from '../../utils/enums';
 
 @Entity('services')
 export class Service {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({
     type: 'enum',
@@ -17,6 +17,5 @@ export class Service {
 
   @Column({ type: 'varchar', length: 250 })
   price: string;
-
 
 }

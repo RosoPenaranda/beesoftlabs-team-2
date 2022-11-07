@@ -15,8 +15,8 @@ import { Pet } from './pet.entity';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @PrimaryColumn({ type: 'varchar', length: 250 })
   email: string;
@@ -24,7 +24,7 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 250 })
   name: string;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   created_at: Date;
 
   @Column({ type: 'varchar', length: 250 })

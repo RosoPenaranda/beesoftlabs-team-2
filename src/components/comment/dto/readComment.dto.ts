@@ -1,36 +1,29 @@
 import { Expose } from 'class-transformer';
 import {
-  IsEmail,
-  IsInt,
   IsNotEmpty,
+  IsNumber,
   IsString,
   MaxLength,
-  Min,
   MinLength,
 } from 'class-validator';
+import { User } from '../../../database/entities/user.entity';
 
-export class CreateUserDto {
+export class ReadCommentDto {
+  @IsNotEmpty()
+  @IsNumber()
+  @MinLength(3)
+  @MaxLength(200)
+  @Expose()
+  points: number;
+
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
+  @MaxLength(500)
   @Expose()
-  name: string;
+  comment: string;
 
   @IsNotEmpty()
-  @IsString()
-  @MinLength(10)
-  @MaxLength(250)
   @Expose()
-  address: string;
-
-  @IsNotEmpty()
-  @IsEmail()
-  @Expose()
-  email: string;
-
-  @IsNotEmpty()
-  @IsInt()
-  @Min(18)
-  @Expose()
-  age: number;
+  author: User;
 }
