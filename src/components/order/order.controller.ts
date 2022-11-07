@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 
 import { OrderService } from './order.service';
@@ -17,38 +16,27 @@ import { UpdateOrderDto } from './dto/updateOrder.dto';
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Post()
+  @Post('/createOrder')
   createOrder(@Body() orderDto: CreateOrderDto) {
     return this.orderService.create(orderDto);
   }
 
-  @Get()
+  @Get('/getComments')
   getAllOrders() {
     return this.orderService.findAll();
   }
 
-  @Get('/:id')
+  @Get('/getComment/:id')
   getOrderById(@Param('id') id: string) {
     return this.orderService.findById(id);
   }
 
-  @Patch('/:id')
-  updateOrder(
-    @Param('id') id: string,
-    @Body() newOrderDto: Partial<UpdateOrderDto>,
-  ) {
-    return this.orderService.updateById(id, newOrderDto);
+  @Patch('/updateComment/:id')
+  updateOrder(@Body() newCommentDto: UpdateOrderDto, @Param('id') id: string) {
+    return this.orderService.updateById(id, newCommentDto);
   }
 
-  @Put('/:id')
-  putAddress(
-    @Param('id') id: string,
-    @Body() newOrder: Required<UpdateOrderDto>,
-  ) {
-    return this.orderService.updateById(id, newOrder);
-  }
-
-  @Delete('/:id')
+  @Delete('/deleteComment/:id')
   deleteOrderById(@Param('id') id: string) {
     return this.orderService.removeById(id);
   }

@@ -10,7 +10,7 @@ import {
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/createComment.dto';
 import { User } from '../../database/entities/user.entity';
-import { UpdateCommentDto } from "./dto/updateComment.dto";
+import { UpdateCommentDto } from './dto/updateComment.dto';
 
 @Controller('comments')
 export class CommentController {

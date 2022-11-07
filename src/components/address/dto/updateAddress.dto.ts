@@ -6,8 +6,9 @@ import {
   MinLength,
   IsLatitude,
   IsLongitude,
-  IsPostalCode, IsOptional
-} from "class-validator";
+  IsPostalCode,
+  IsOptional,
+} from 'class-validator';
 
 export class UpdateAddressDto {
   @IsOptional()

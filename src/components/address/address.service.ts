@@ -54,7 +54,7 @@ export class AddressService {
         this.logger.error('Address not found, could not delete it');
         throw new NotFoundException('Address not found, verify information');
       }
-      let updateAddress = {
+      const updateAddress = {
         ...oldAddress,
         ...newAddress,
       };

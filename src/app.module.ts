@@ -19,8 +19,8 @@ import { ServiceModule } from './components/service/service.module';
 import { PetModule } from './components/pet/pet.module';
 import { UserModule } from './components/user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { AuthService } from "./auth/auth.service";
-import { PassportModule } from "@nestjs/passport";
+import { AuthService } from './auth/auth.service';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -45,7 +45,7 @@ import { PassportModule } from "@nestjs/passport";
     {
       provide: 'AUTH_SERVICE',
       useClass: AuthService,
-    }
+    },
   ],
 })
 export class AppModule {}

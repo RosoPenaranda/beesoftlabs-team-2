@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 import { CreateCommentDto } from './dto/createComment.dto';
 import { Comment } from '../../database/entities/comment.entity';
 import { User } from '../../database/entities/user.entity';
-import { UpdateCommentDto } from "./dto/updateComment.dto";
+import { UpdateCommentDto } from './dto/updateComment.dto';
 
 @Injectable()
 export class CommentService {
@@ -57,7 +57,7 @@ export class CommentService {
         this.logger.error('Comment not found, verify the information');
         throw new NotFoundException('Comment not found');
       }
-      let updateComment = {
+      const updateComment = {
         ...oldComment,
         ...newComment,
       };
