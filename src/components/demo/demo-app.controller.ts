@@ -9,10 +9,10 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { CreateUserDto } from './createUser.dto';
+import { CreateUserDto } from './dto/createUser.dto';
 import { User } from '../../database/entities/user.entity';
 import { DemoAppService } from './demo-app.service';
-import { ReadUserDto } from './readUser.dto';
+import { ReadUserDto } from './dto/readUser.dto';
 
 export interface IResponse {
   appName: string;

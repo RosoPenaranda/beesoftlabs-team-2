@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { TypeOfService } from './enums';
+import { TypeOfService } from '../../utils/enums';
 
 @Entity('services')
 export class Service {
@@ -18,9 +18,5 @@ export class Service {
   @Column({ type: 'varchar', length: 250 })
   price: string;
 
-  @Column({ type: 'date', nullable: true })
-  start_time: Date | null;
 
-  @Column({ type: 'date', nullable: true })
-  end_time: Date | null;
 }

@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { Address } from './address.entity';
 import { Comment } from './comment.entity';
-import { UserRole } from './enums';
+import { UserRole } from '../../utils/enums';
 import { Order } from './order.entity';
 import { Pet } from './pet.entity';
 

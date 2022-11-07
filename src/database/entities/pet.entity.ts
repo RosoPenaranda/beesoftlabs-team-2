@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { PetSize } from './enums';
+import { PetSize } from '../../utils/enums';
 import { User } from './user.entity';
 
 @Entity({ name: 'pets' })
