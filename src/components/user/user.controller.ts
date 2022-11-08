@@ -22,7 +22,8 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get()
+  @Get('/getUsers')
+  @UseGuards(GoogleAuthGuard)
   findAll() {
     console.log('finding all users');
     return this.userService.findAll();
