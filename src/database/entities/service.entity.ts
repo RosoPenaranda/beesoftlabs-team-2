@@ -17,5 +17,4 @@ export class Service {
 
   @Column({ type: 'varchar', length: 250 })
   price: string;
-
 }
