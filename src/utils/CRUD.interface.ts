@@ -1,7 +1,7 @@
 export interface CRUD<T> {
-  getAll: () => Promise<T[]>;
-  getById: (id: string) => Promise<T>;
-  create: (body: any) => Promise<T>;
-  updateById: (id: string, body: any) => Promise<T>;
-  deleteById: (id: string) => Promise<T>;
+  findAll: () => Promise<T[] | void>;
+  findById: (id: string) => Promise<T | void>;
+  create: (body: any) => Promise<T | void>;
+  updateById: (id: string, body: any) => Promise<T | void>;
+  removeById: (id: string) => Promise<T | void>;
 }
