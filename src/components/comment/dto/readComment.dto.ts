@@ -3,16 +3,17 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
+  Max,
   MaxLength,
+  Min,
   MinLength,
 } from 'class-validator';
-import { User } from '../../../database/entities/user.entity';
 
 export class ReadCommentDto {
   @IsNotEmpty()
   @IsNumber()
-  @MinLength(3)
-  @MaxLength(200)
+  @Min(0)
+  @Max(5)
   @Expose()
   points: number;
 
@@ -22,8 +23,4 @@ export class ReadCommentDto {
   @MaxLength(500)
   @Expose()
   comment: string;
-
-  @IsNotEmpty()
-  @Expose()
-  author: User;
 }
