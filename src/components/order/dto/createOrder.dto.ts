@@ -1,29 +1,19 @@
 import { Expose } from 'class-transformer';
-import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
-import { User } from '../../../database/entities/user.entity';
-import { Service } from '../../../database/entities/service.entity';
+import { IsDate, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateOrderDto {
-  @IsNotEmpty()
+  @IsOptional()
   @IsDate()
   @Expose()
-  start_time: Date | null;
+  start_time: Date;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsDate()
   @Expose()
-  end_time: Date | null;
+  end_time: Date;
 
   @IsNotEmpty()
   @IsNumber()
   @Expose()
   total_price: number;
-
-  @IsNotEmpty()
-  @Expose()
-  services: Service[];
-
-  @IsNotEmpty()
-  @Expose()
-  customer: User;
 }

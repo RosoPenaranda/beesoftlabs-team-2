@@ -1,26 +1,27 @@
 import { Expose } from 'class-transformer';
 import {
-  IsInt,
+  IsLatitude,
+  IsLongitude,
   IsNotEmpty,
+  IsPostalCode,
   IsString,
   MaxLength,
   Min,
   MinLength,
 } from 'class-validator';
-import { User } from '../../../database/entities/user.entity';
 
 export class CreateAddressDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
-  @MaxLength(200)
+  @MaxLength(250)
   @Expose()
   state: string;
 
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
-  @MaxLength(200)
+  @MaxLength(250)
   @Expose()
   city: string;
 
@@ -34,28 +35,23 @@ export class CreateAddressDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
-  @MaxLength(250)
+  @MaxLength(500)
   @Expose()
   remark: string;
 
   @IsNotEmpty()
-  @IsInt()
+  @IsLongitude()
   @Expose()
-  length: number;
+  longitude: number;
 
   @IsNotEmpty()
-  @IsInt()
+  @IsLatitude()
   @Expose()
   latitude: number;
 
   @IsNotEmpty()
-  @IsInt()
+  @IsPostalCode()
   @Min(6)
   @Expose()
   postal_code: number;
-
-  @IsNotEmpty()
-  @IsString()
-  @Expose()
-  owner: User;
 }

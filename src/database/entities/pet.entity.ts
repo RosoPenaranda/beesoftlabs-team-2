@@ -19,11 +19,11 @@ export class Pet {
   @Column({ type: 'varchar', length: 250 })
   species: string;
 
-  @Column({ type: 'varchar', length: 250 })
+  @Column({ type: 'text' })
   profile_picture: string;
 
-  @Column({ type: 'int' })
-  weight: string;
+  @Column({ type: 'double' })
+  weight: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

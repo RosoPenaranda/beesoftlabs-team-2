@@ -16,15 +16,15 @@ export class Order {
   id: string;
 
   @Column({ type: 'date', nullable: true })
-  start_time: Date | null;
+  start_time?: Date;
 
   @Column({ type: 'date', nullable: true })
-  end_time: Date | null;
+  end_time?: Date;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'double' })
   total_price: number;
 
   @ManyToMany(() => Service)

@@ -1,42 +1,54 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
-import { AddressService } from "./address.service";
-import { CreateAddressDto } from "./dto/createAddress.dto";
-import { UpdateAddressDto } from "./dto/updateAddress.dto";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { AddressService } from './address.service';
+import { CreateAddressDto } from './dto/createAddress.dto';
+import { UpdateAddressDto } from './dto/updateAddress.dto';
 
-@Controller('address')
+@Controller('addresses')
 export class AddressController {
+  constructor(private readonly addressService: AddressService) {}
 
-  constructor(
-    private readonly addressService: AddressService
-  ) {
+  @Post()
+  createAddress(@Body() addressDto: CreateAddressDto) {
+    return this.addressService.create(addressDto);
   }
 
-  @Post('/createAddress')
-  createAddress(@Body()addressDto: CreateAddressDto) {
-    return this.addressService.createAddress(addressDto);
-  }
-
-  @Get('/getAddress')
+  @Get()
   getAllAddress() {
-    return this.addressService.getAllAddress();
+    return this.addressService.getAll();
   }
 
-  @Get('/getAddress/:id')
+  @Get('/:id')
   getAddressById(@Param('id') id: string) {
-    return this.addressService.getAddressById(id);
+    return this.addressService.getById(id);
   }
 
-  @Patch('/updateAddress/:id')
-  updateAddress(
-    @Body() newAddress: UpdateAddressDto,
-    @Param('id') id: string
+  @Patch('/:id')
+  patchAddress(
+    @Body() newAddress: Partial<UpdateAddressDto>,
+    @Param('id') id: string,
   ) {
-    return this.addressService.updateAddress(newAddress, id);
+    return this.addressService.updateById(id, newAddress);
   }
 
-  @Delete('/deleteAddress/:id')
+  @Put('/:id')
+  putAddress(
+    @Body() newAddress: Required<UpdateAddressDto>,
+    @Param('id') id: string,
+  ) {
+    return this.addressService.updateById(id, newAddress);
+  }
+
+  @Delete('/:id')
   deleteAddressById(@Param('id') id: string) {
-    return this.addressService.deleteAddressById(id);
+    return this.addressService.deleteById(id);
   }
-
 }

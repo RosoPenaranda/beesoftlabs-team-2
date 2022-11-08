@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
@@ -14,7 +13,7 @@ import { Order } from './order.entity';
 import { Pet } from './pet.entity';
 
 @Entity({ name: 'users' })
-export class User extends BaseEntity {
+export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -27,7 +26,7 @@ export class User extends BaseEntity {
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   created_at: Date;
 
-  @Column({ type: 'varchar', length: 250 })
+  @Column({ type: 'text' })
   profile_picture: string;
 
   @Column({ type: 'int' })

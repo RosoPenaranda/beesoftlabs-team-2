@@ -10,11 +10,11 @@ export class Service {
     type: 'enum',
     enum: TypeOfService,
   })
-  size: TypeOfService;
+  service: TypeOfService;
 
   @Column({ type: 'varchar', length: 250 })
   description: string;
 
-  @Column({ type: 'varchar', length: 250 })
-  price: string;
+  @Column({ type: 'double' })
+  price: number;
 }

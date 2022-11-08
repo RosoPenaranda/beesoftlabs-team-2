@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CRUD } from 'src/utils/CRUD.interface';
 
 import { Repository } from 'typeorm';
 import { Address } from '../../database/entities/address.entity';
@@ -7,13 +8,13 @@ import { CreateAddressDto } from './dto/createAddress.dto';
 import { UpdateAddressDto } from './dto/updateAddress.dto';
 
 @Injectable()
-export class AddressService {
+export class AddressService implements CRUD<Address> {
   constructor(
     @InjectRepository(Address)
     private readonly addressRepo: Repository<Address>,
   ) {}
 
-  async createAddress(address: CreateAddressDto) {
+  async create(address: CreateAddressDto) {
     try {
       return await this.addressRepo.save(address);
     } catch (e) {
@@ -24,7 +25,7 @@ export class AddressService {
     }
   }
 
-  async getAllAddress() {
+  async getAll() {
     try {
       return await this.addressRepo.find();
     } catch (e) {
@@ -32,7 +33,7 @@ export class AddressService {
     }
   }
 
-  async getAddressById(id: string) {
+  async getById(id: string) {
     try {
       return await this.addressRepo.findOne({ where: { id } });
     } catch (e) {
@@ -40,12 +41,12 @@ export class AddressService {
     }
   }
 
-  async updateAddress(newAddress: UpdateAddressDto, id: string) {
+  async updateById(id: string, newAddress: Partial<UpdateAddressDto>) {
     try {
       const oldAddress = await this.addressRepo.findOne({ where: { id } });
 
       if (!oldAddress) {
-        return new HttpException(
+        throw new HttpException(
           'Address cant be updated',
           HttpStatus.BAD_GATEWAY,
         );
@@ -59,11 +60,11 @@ export class AddressService {
     }
   }
 
-  async deleteAddressById(id: string) {
+  async deleteById(id: string) {
     const deleteAddress = await this.addressRepo.findOne({ where: { id } });
 
     if (!deleteAddress)
-      return new HttpException('Remove failed', HttpStatus.NOT_FOUND);
+      throw new HttpException('Remove failed', HttpStatus.NOT_FOUND);
 
     await this.addressRepo.delete(id);
 

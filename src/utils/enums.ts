@@ -6,7 +6,7 @@ export enum UserRole {
 
 export enum PetSize {
   TINY = 'tiny',
-  NORMAL = 'normal',
+  NORMAL = 'medium',
   BIG = 'big',
 }
 

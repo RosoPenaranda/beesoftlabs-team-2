@@ -21,11 +21,11 @@ export class Address {
   @Column({ type: 'varchar', length: 250 })
   address: string;
 
-  @Column({ type: 'varchar', length: 250 })
+  @Column({ type: 'varchar', length: 500 })
   remark: string;
 
   @Column({ type: 'int' })
-  length: number;
+  longitude: number;
 
   @Column({ type: 'int' })
   latitude: number;
@@ -36,6 +36,6 @@ export class Address {
   @ManyToOne(() => User, (user) => user.addresses)
   owner: User;
 
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp'})
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   created_at: Date;
 }

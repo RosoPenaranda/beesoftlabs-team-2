@@ -21,5 +21,4 @@ export class CreateCommentDto {
   @MaxLength(500)
   @Expose()
   comment: string;
-
 }
