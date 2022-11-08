@@ -23,12 +23,12 @@ export class AddressController {
 
   @Get()
   getAllAddress() {
-    return this.addressService.getAll();
+    return this.addressService.findAll();
   }
 
   @Get('/:id')
   getAddressById(@Param('id') id: string) {
-    return this.addressService.getById(id);
+    return this.addressService.findById(id);
   }
 
   @Patch('/:id')
@@ -49,6 +49,6 @@ export class AddressController {
 
   @Delete('/:id')
   deleteAddressById(@Param('id') id: string) {
-    return this.addressService.deleteById(id);
+    return this.addressService.removeById(id);
   }
 }

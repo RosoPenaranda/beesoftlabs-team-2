@@ -33,9 +33,9 @@ export class Address {
   @Column({ type: 'int' })
   postal_code: number;
 
-  @ManyToOne(() => User, (user) => user.addresses)
-  owner: User;
-
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   created_at: Date;
+
+  @ManyToOne(() => User, (user) => user.addresses)
+  owner: User;
 }

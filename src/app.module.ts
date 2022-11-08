@@ -13,6 +13,11 @@ import { Comment } from "./database/entities/comment.entity";
 import { Order } from "./database/entities/order.entity";
 import { Pet } from "./database/entities/pet.entity";
 import { Service } from "./database/entities/service.entity";
+import { UserModule } from './src/components/user/user.module';
+import { UserModule } from './components/user/user.module';
+import { ServiceModule } from './components/service/service.module';
+import { PetModule } from './components/pet/pet.module';
+import { UserModule } from './components/user/user.module';
 
 @Module({
   imports: [
@@ -24,6 +29,9 @@ import { Service } from "./database/entities/service.entity";
     AddressModule,
     CommentModule,
     OrderModule,
+    UserModule,
+    PetModule,
+    ServiceModule,
   ],
   controllers: [],
   providers: [],

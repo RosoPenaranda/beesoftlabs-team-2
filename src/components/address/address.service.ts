@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CRUD } from 'src/utils/CRUD.interface';
-
 import { Repository } from 'typeorm';
+
 import { Address } from '../../database/entities/address.entity';
 import { CreateAddressDto } from './dto/createAddress.dto';
 import { UpdateAddressDto } from './dto/updateAddress.dto';
+import { CRUD } from 'src/utils/CRUD.interface';
 
 @Injectable()
 export class AddressService implements CRUD<Address> {
@@ -25,7 +25,7 @@ export class AddressService implements CRUD<Address> {
     }
   }
 
-  async getAll() {
+  async findAll() {
     try {
       return await this.addressRepo.find();
     } catch (e) {
@@ -33,7 +33,7 @@ export class AddressService implements CRUD<Address> {
     }
   }
 
-  async getById(id: string) {
+  async findById(id: string) {
     try {
       return await this.addressRepo.findOne({ where: { id } });
     } catch (e) {
@@ -60,7 +60,7 @@ export class AddressService implements CRUD<Address> {
     }
   }
 
-  async deleteById(id: string) {
+  async removeById(id: string) {
     const deleteAddress = await this.addressRepo.findOne({ where: { id } });
 
     if (!deleteAddress)
