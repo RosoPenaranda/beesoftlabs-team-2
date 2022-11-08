@@ -22,7 +22,7 @@ export class AddressService {
 
   async create(address: CreateAddressDto, user: User) {
     try {
-      return await this.addressRepo.save(address);
+      return await this.addressRepo.save({ ...address, owner: user });
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException(error, 'Error creating address');
