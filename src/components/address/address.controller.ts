@@ -11,14 +11,15 @@ import {
 import { AddressService } from './address.service';
 import { CreateAddressDto } from './dto/createAddress.dto';
 import { UpdateAddressDto } from './dto/updateAddress.dto';
+import { User } from "../../database/entities/user.entity";
 
 @Controller('addresses')
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
   @Post()
-  createAddress(@Body() addressDto: CreateAddressDto) {
-    return this.addressService.create(addressDto);
+  createAddress(@Body() addressDto: CreateAddressDto, user: User) {
+    return this.addressService.create(addressDto, user);
   }
 
   @Get()

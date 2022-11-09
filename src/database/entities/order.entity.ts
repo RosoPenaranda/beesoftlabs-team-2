@@ -24,7 +24,7 @@ export class Order {
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 
-  @Column({ type: 'double' })
+  @Column({ type: 'float' })
   total_price: number;
 
   @ManyToMany(() => Service)

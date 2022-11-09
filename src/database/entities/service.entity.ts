@@ -15,6 +15,6 @@ export class Service {
   @Column({ type: 'varchar', length: 250 })
   description: string;
 
-  @Column({ type: 'double' })
+  @Column({ type: 'float' })
   price: number;
 }

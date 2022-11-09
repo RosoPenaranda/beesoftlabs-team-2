@@ -1,43 +1,55 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
-import { CommentService } from "./comment.service";
-import { CreateCommentDto } from "./dto/createComment.dto";
-import { UpdateCommentDto } from "./dto/updateComment.dto";
-import { User } from "../../database/entities/user.entity";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { CommentService } from './comment.service';
+import { CreateCommentDto } from './dto/createComment.dto';
+import { UpdateCommentDto } from './dto/updateComment.dto';
+import { User } from '../../database/entities/user.entity';
 
 @Controller('comments')
 export class CommentController {
-
-  constructor(
-    private readonly commentService: CommentService
-  ) {
-  }
+  constructor(private readonly commentService: CommentService) {}
 
   @Post()
-  createComment(@Body()commentDto: CreateCommentDto, user: User) {
-    return this.commentService.createComment(commentDto, user);
+  createComment(@Body() commentDto: CreateCommentDto, user: User) {
+    return this.commentService.create(commentDto, user);
   }
 
   @Get()
   getAllComments() {
-    return this.commentService.getAllComments();
+    return this.commentService.findAll();
   }
 
-  @Get(':id')
+  @Get('/:id')
   getCommentById(@Param('id') id: string) {
-    return this.commentService.getCommentById(id);
+    return this.commentService.findById(id);
   }
 
-  @Patch(':id')
+  @Patch('/:id')
   updateComment(
-    @Body() newCommentDto: UpdateCommentDto,
-    @Param('id') id: string
+    @Body() newCommentDto: Partial<UpdateCommentDto>,
+    @Param('id') id: string,
   ) {
-    return this.commentService.updateComment(newCommentDto, id);
+    return this.commentService.updateById(id, newCommentDto);
   }
 
-  @Delete(':id')
+  @Put('/:id')
+  putAddress(
+    @Body() newComment: Required<UpdateCommentDto>,
+    @Param('id') id: string,
+  ) {
+    return this.commentService.updateById(id, newComment);
+  }
+
+  @Delete('/:id')
   deleteCommentById(@Param('id') id: string) {
-    return this.commentService.deleteCommentById(id);
+    return this.commentService.removeById(id);
   }
-
 }

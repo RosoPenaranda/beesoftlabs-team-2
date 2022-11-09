@@ -22,7 +22,7 @@ export class Pet {
   @Column({ type: 'text' })
   profile_picture: string;
 
-  @Column({ type: 'double' })
+  @Column({ type: 'float' })
   weight: number;
 
   @CreateDateColumn({ type: 'timestamp' })

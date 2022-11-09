@@ -22,8 +22,4 @@ export class ReadOrderDto {
   @IsNotEmpty()
   @Expose()
   services: Service[];
-
-  @IsNotEmpty()
-  @Expose()
-  customer: User;
 }
