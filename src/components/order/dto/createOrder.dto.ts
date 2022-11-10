@@ -1,14 +1,14 @@
 import { Expose } from 'class-transformer';
-import { IsDate, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
-import { Service } from "../../../database/entities/service.entity";
+import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
+import { Service } from '../../../database/entities/service.entity';
 
 export class CreateOrderDto {
-  @IsOptional()
+  @IsNotEmpty()
   @IsDate()
   @Expose()
   start_time: Date;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsDate()
   @Expose()
   end_time: Date;

@@ -1,15 +1,18 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
 import { Address } from '../../database/entities/address.entity';
 import { CreateAddressDto } from './dto/createAddress.dto';
 import { UpdateAddressDto } from './dto/updateAddress.dto';
-import { CRUD } from 'src/utils/CRUD.interface';
 import { User } from '../../database/entities/user.entity';
 
 @Injectable()
-export class AddressService implements CRUD<Address> {
+export class AddressService {
   private readonly logger = new Logger('AddressService');
 
   constructor(
@@ -22,10 +25,7 @@ export class AddressService implements CRUD<Address> {
       return await this.addressRepo.save(address);
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException(
-        'Error creating the address',
-        HttpStatus.BAD_GATEWAY,
-      );
+      throw new InternalServerErrorException(error, 'Error creating address');
     }
   }
 
@@ -34,7 +34,7 @@ export class AddressService implements CRUD<Address> {
       return await this.addressRepo.find();
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException('Address not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Address not found');
     }
   }
 
@@ -43,7 +43,7 @@ export class AddressService implements CRUD<Address> {
       return await this.addressRepo.findOne({ where: { id } });
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException('Address not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Address not found');
     }
   }
 
@@ -52,42 +52,31 @@ export class AddressService implements CRUD<Address> {
       const oldAddress = await this.addressRepo.findOne({ where: { id } });
       if (!oldAddress) {
         this.logger.error('Address not found, could not delete it');
-        throw new HttpException(
-          'Address not found, verify the information',
-          HttpStatus.NOT_FOUND,
-        );
+        throw new NotFoundException('Address not found, verify information');
       }
-      const address = Object.assign(oldAddress, newAddress);
-      return await this.addressRepo.save(address);
+      let updateAddress = {
+        ...oldAddress,
+        ...newAddress,
+      };
+      return await this.addressRepo.save(updateAddress);
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException(
-        'Address not found',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException(error, 'Error creating address');
     }
   }
 
   async removeById(id: string) {
     try {
       const deleteAddress = await this.addressRepo.findOne({ where: { id } });
-
       if (!deleteAddress) {
         this.logger.error('Address not found, could not delete it');
-        throw new HttpException(
-          'Address not found, verify the information',
-          HttpStatus.NOT_FOUND,
-        );
+        throw new NotFoundException('Address not found, verify information');
       }
       await this.addressRepo.delete(id);
-
       return deleteAddress;
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException(
-        'Remove failed',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException(error, 'Error creating address');
     }
   }
 }

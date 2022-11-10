@@ -24,11 +24,11 @@ export class Address {
   @Column({ type: 'varchar', length: 500 })
   remark: string;
 
-  @Column({ type: 'int' })
-  longitude: number;
+  @Column({ type: 'varchar' })
+  longitude: string;
 
-  @Column({ type: 'int' })
-  latitude: number;
+  @Column({ type: 'varchar' })
+  latitude: string;
 
   @Column({ type: 'int' })
   postal_code: number;

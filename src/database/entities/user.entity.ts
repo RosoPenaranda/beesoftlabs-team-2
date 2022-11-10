@@ -29,7 +29,7 @@ export class User {
   @Column({ type: 'text' })
   profile_picture: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', nullable: true })
   phone: number;
 
   @Column({

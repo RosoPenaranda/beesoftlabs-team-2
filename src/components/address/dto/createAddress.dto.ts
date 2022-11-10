@@ -42,12 +42,12 @@ export class CreateAddressDto {
   @IsNotEmpty()
   @IsLongitude()
   @Expose()
-  longitude: number;
+  longitude: string;
 
   @IsNotEmpty()
   @IsLatitude()
   @Expose()
-  latitude: number;
+  latitude: string;
 
   @IsNotEmpty()
   @IsPostalCode()

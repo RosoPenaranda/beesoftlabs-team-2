@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-/*import { DemoModule } from './components/demo/app.module';*/
+
+import { GoogleStrategy } from './auth/utils/google.strategy';
+
 import { AppConfigModule } from './config/app/config.module';
 import { DatabaseConfigModule } from './config/database/config.module';
 import { TypeOrmConfigModule } from './config/typeorm/typeorm.module';
@@ -16,6 +18,9 @@ import { Service } from './database/entities/service.entity';
 import { ServiceModule } from './components/service/service.module';
 import { PetModule } from './components/pet/pet.module';
 import { UserModule } from './components/user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthService } from "./auth/auth.service";
+import { PassportModule } from "@nestjs/passport";
 
 @Module({
   imports: [
@@ -23,15 +28,24 @@ import { UserModule } from './components/user/user.module';
     TypeOrmModule.forFeature([User, Address, Comment, Order, Pet, Service]),
     DatabaseConfigModule,
     AppConfigModule,
-    /*DemoModule,*/
+    PassportModule.register({
+      session: true,
+    }),
     AddressModule,
     CommentModule,
     OrderModule,
     UserModule,
     PetModule,
     ServiceModule,
+    AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    GoogleStrategy,
+    {
+      provide: 'AUTH_SERVICE',
+      useClass: AuthService,
+    }
+  ],
 })
 export class AppModule {}

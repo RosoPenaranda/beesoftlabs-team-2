@@ -1,17 +1,19 @@
 import { Expose } from 'class-transformer';
 import {
-  IsNotEmpty,
+  Min,
+  Max,
   IsNumber,
   IsString,
   MaxLength,
   MinLength,
+  IsNotEmpty,
 } from 'class-validator';
 
 export class CreateCommentDto {
   @IsNotEmpty()
   @IsNumber()
-  @MinLength(3)
-  @MaxLength(200)
+  @Min(0)
+  @Max(5)
   @Expose()
   points: number;
 

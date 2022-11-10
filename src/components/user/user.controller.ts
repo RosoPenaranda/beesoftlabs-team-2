@@ -1,18 +1,21 @@
 import {
-  Controller,
+  Put,
   Get,
   Post,
   Body,
   Patch,
   Param,
   Delete,
-  Put,
+  UseGuards,
+  Controller,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { GoogleAuthGuard } from "../../auth/utils/guards";
 
 @Controller('user')
+
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -21,7 +24,8 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get()
+  @Get('/getUsers')
+  @UseGuards(GoogleAuthGuard)
   findAll() {
     return this.userService.findAll();
   }

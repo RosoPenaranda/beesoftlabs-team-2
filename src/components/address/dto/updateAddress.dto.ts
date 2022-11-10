@@ -1,47 +1,54 @@
 import { Expose } from 'class-transformer';
 import {
-  IsLatitude,
-  IsLongitude,
-  IsPostalCode,
+  Min,
   IsString,
   MaxLength,
-  Min,
   MinLength,
-} from 'class-validator';
+  IsLatitude,
+  IsLongitude,
+  IsPostalCode, IsOptional
+} from "class-validator";
 
 export class UpdateAddressDto {
+  @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(250)
   @Expose()
   state: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(250)
   @Expose()
   city: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(250)
   @Expose()
   address: string;
 
+  @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(500)
   @Expose()
   remark: string;
 
+  @IsOptional()
   @IsLongitude()
   @Expose()
-  longitude: number;
+  longitude: string;
 
+  @IsOptional()
   @IsLatitude()
   @Expose()
-  latitude: number;
+  latitude: string;
 
+  @IsOptional()
   @IsPostalCode()
   @Min(6)
   @Expose()

@@ -1,17 +1,16 @@
 import {
-  Body,
-  Controller,
-  Delete,
   Get,
-  Param,
-  Patch,
   Post,
-  Put,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Controller,
 } from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/createComment.dto';
-import { UpdateCommentDto } from './dto/updateComment.dto';
 import { User } from '../../database/entities/user.entity';
+import { UpdateCommentDto } from "./dto/updateComment.dto";
 
 @Controller('comments')
 export class CommentController {
@@ -38,14 +37,6 @@ export class CommentController {
     @Param('id') id: string,
   ) {
     return this.commentService.updateById(id, newCommentDto);
-  }
-
-  @Put('/:id')
-  putAddress(
-    @Body() newComment: Required<UpdateCommentDto>,
-    @Param('id') id: string,
-  ) {
-    return this.commentService.updateById(id, newComment);
   }
 
   @Delete('/:id')

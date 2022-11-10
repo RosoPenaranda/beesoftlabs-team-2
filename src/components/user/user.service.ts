@@ -1,13 +1,19 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException
+} from "@nestjs/common";
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/database/entities/user.entity';
-import { CRUD } from 'src/utils/CRUD.interface';
-import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
-export class UserService implements CRUD<User> {
+export class UserService {
   private readonly logger = new Logger('UserService');
 
   constructor(
@@ -18,9 +24,9 @@ export class UserService implements CRUD<User> {
       return await this.userRepo.save(newUser);
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException(
-        'Error creating new user',
-        HttpStatus.BAD_GATEWAY,
+      throw new InternalServerErrorException(
+        error,
+        'Error creating user',
       );
     }
   }
@@ -30,13 +36,14 @@ export class UserService implements CRUD<User> {
       const users = await this.userRepo.find();
 
       if (!users) {
-        throw new HttpException(`Resource not found`, HttpStatus.NOT_FOUND);
+        throw new NotFoundException(`Users not found`);
       }
+      return users;
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException(
-        `Error finding all users: ${error.message}`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
+      throw new InternalServerErrorException(
+        error,
+        'Error finding users',
       );
     }
   }
@@ -45,14 +52,30 @@ export class UserService implements CRUD<User> {
     try {
       const user = await this.userRepo.findOne({ where: { id: id } });
       if (!user) {
-        throw new HttpException(`Resource not found`, HttpStatus.NOT_FOUND);
+        throw new NotFoundException(`User not found`);
       }
       return user;
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException(
-        `Error finding user: ${error.message}`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
+      throw new InternalServerErrorException(
+        error,
+        'Error finding user',
+      );
+    }
+  }
+
+  async findByEmail(email: string) {
+    try {
+      const user = await this.userRepo.findOne({ where: { email: email } });
+      if (!user) {
+        throw new NotFoundException(`Email: ${email} not found`);
+      }
+      return user;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException(
+        error,
+        'Error finding user by email',
       );
     }
   }
@@ -62,15 +85,15 @@ export class UserService implements CRUD<User> {
       const user = await this.userRepo.findOne({ where: { id } });
 
       if (!user) {
-        throw new HttpException(`Resource not found`, HttpStatus.NOT_FOUND);
+        throw new NotFoundException(`User not found`);
       }
       const updatedUser = Object.assign(user, updateUser);
       return await this.userRepo.save(updatedUser);
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException(
-        `Error updating user: ${error.message}`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
+      throw new InternalServerErrorException(
+        error,
+        'Error updating user',
       );
     }
   }
@@ -82,9 +105,9 @@ export class UserService implements CRUD<User> {
       return user;
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException(
-        `Error removing user: ${error.message}`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
+      throw new InternalServerErrorException(
+        error,
+        'Error deleting user',
       );
     }
   }

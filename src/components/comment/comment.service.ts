@@ -1,16 +1,18 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { Repository } from 'typeorm';
-
-import { UpdateCommentDto } from './dto/updateComment.dto';
 import { CreateCommentDto } from './dto/createComment.dto';
 import { Comment } from '../../database/entities/comment.entity';
 import { User } from '../../database/entities/user.entity';
-import { CRUD } from '../../utils/CRUD.interface';
+import { UpdateCommentDto } from "./dto/updateComment.dto";
 
 @Injectable()
-export class CommentService implements CRUD<Comment> {
+export class CommentService {
   private readonly logger = new Logger('CommentService');
 
   constructor(
@@ -26,10 +28,7 @@ export class CommentService implements CRUD<Comment> {
       return await this.commentRepo.save(commentDto);
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException(
-        'Error creating the comment',
-        HttpStatus.BAD_GATEWAY,
-      );
+      throw new InternalServerErrorException(error, 'Error creating comment');
     }
   }
 
@@ -38,7 +37,7 @@ export class CommentService implements CRUD<Comment> {
       return await this.commentRepo.find();
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Comment not found');
     }
   }
 
@@ -47,7 +46,7 @@ export class CommentService implements CRUD<Comment> {
       return await this.commentRepo.findOne({ where: { id } });
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Comment not found');
     }
   }
 
@@ -56,16 +55,16 @@ export class CommentService implements CRUD<Comment> {
       const oldComment = await this.commentRepo.findOne({ where: { id } });
       if (!oldComment) {
         this.logger.error('Comment not found, verify the information');
-        throw new HttpException(
-          'Comment cant be updated',
-          HttpStatus.BAD_GATEWAY,
-        );
+        throw new NotFoundException('Comment not found');
       }
-      const commentDto = Object.assign(oldComment, newComment);
-      return await this.commentRepo.save(commentDto);
+      let updateComment = {
+        ...oldComment,
+        ...newComment,
+      };
+      return await this.commentRepo.save(updateComment);
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
+      throw new InternalServerErrorException(error, 'Error updating comment');
     }
   }
 
@@ -73,14 +72,14 @@ export class CommentService implements CRUD<Comment> {
     try {
       const deleteComment = await this.commentRepo.findOne({ where: { id } });
       if (!deleteComment) {
-        this.logger.error('Comment not found, verify the information');
-        throw new HttpException('Remove failed', HttpStatus.NOT_FOUND);
+        this.logger.error('Comment not found');
+        throw new NotFoundException('Comment not found');
       }
       await this.commentRepo.delete(id);
       return deleteComment;
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException('Remove failed', HttpStatus.NOT_FOUND);
+      throw new InternalServerErrorException(error, 'Error deleting comment');
     }
   }
 }

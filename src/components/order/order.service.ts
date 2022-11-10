@@ -5,10 +5,9 @@ import { Repository } from 'typeorm';
 import { Order } from '../../database/entities/order.entity';
 import { CreateOrderDto } from './dto/createOrder.dto';
 import { UpdateOrderDto } from './dto/updateOrder.dto';
-import { CRUD } from '../../utils/CRUD.interface';
 
 @Injectable()
-export class OrderService implements CRUD<Order> {
+export class OrderService {
   private readonly logger = new Logger('OrderService');
 
   constructor(
