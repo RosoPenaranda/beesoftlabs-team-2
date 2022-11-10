@@ -33,7 +33,7 @@ export class CommentController {
 
   @Patch('/:id')
   updateComment(
-    @Body() newCommentDto: Partial<UpdateCommentDto>,
+    @Body() newCommentDto: UpdateCommentDto,
     @Param('id') id: string,
   ) {
     return this.commentService.updateById(id, newCommentDto);

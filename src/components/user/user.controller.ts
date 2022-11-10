@@ -1,31 +1,19 @@
 import {
-<<<<<<< HEAD
-  Put,
-=======
-  Controller,
->>>>>>> d5c8368 (user component finished)
   Get,
   Post,
   Body,
   Patch,
   Param,
   Delete,
-<<<<<<< HEAD
   UseGuards,
   Controller,
-=======
-  Put,
->>>>>>> d5c8368 (user component finished)
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-<<<<<<< HEAD
 import { GoogleAuthGuard } from '../../auth/utils/guards';
-=======
->>>>>>> d5c8368 (user component finished)
 
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -34,12 +22,8 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-<<<<<<< HEAD
   @Get('/getUsers')
   @UseGuards(GoogleAuthGuard)
-=======
-  @Get()
->>>>>>> d5c8368 (user component finished)
   findAll() {
     return this.userService.findAll();
   }
@@ -50,15 +34,7 @@ export class UserController {
   }
 
   @Patch(':id')
-  patch(
-    @Param('id') id: string,
-    @Body() updateUserDto: Partial<UpdateUserDto>,
-  ) {
-    return this.userService.updateById(id, updateUserDto);
-  }
-
-  @Put(':id')
-  put(@Param('id') id: string, @Body() updateUserDto: Required<UpdateUserDto>) {
+  patch(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.updateById(id, updateUserDto);
   }
 

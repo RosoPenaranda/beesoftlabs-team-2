@@ -40,7 +40,7 @@ async function bootstrap() {
   SwaggerModule.setup(`api/swagger`, app, document);
 
   await app.listen(appConfigService.port, '0.0.0.0', () => {
-    logger.log(`API funcionando en el puerto ${appConfigService.port}`);
+    logger.log(`Running on port: ${appConfigService.port}`);
   });
 }
 bootstrap();

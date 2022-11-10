@@ -26,8 +26,8 @@ export class User {
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   created_at: Date;
 
-  @Column({ type: 'text' })
-  profile_picture: string;
+  @Column({ type: 'text', nullable: true })
+  profile_picture?: string;
 
   @Column({ type: 'int', nullable: true })
   phone: number;
