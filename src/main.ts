@@ -11,7 +11,7 @@ async function bootstrap() {
   const logger = new Logger('/Main');
   const appConfigService: AppConfigService = app.get(AppConfigService);
   app.use(session({
-    secret: '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',
+    secret: process.env.GOOGLE_SECRET,
     saveUninitialized: false,
     resave: false,
     cookie: {
