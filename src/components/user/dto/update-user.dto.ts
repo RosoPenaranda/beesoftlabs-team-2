@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import { Expose } from 'class-transformer';
-=======
->>>>>>> 5611889 (pet component created)
 import {
   IsEmail,
   IsNotEmpty,

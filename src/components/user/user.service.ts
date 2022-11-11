@@ -59,22 +59,6 @@ export class UserService {
 
   async findByEmail(email: string) {
     try {
-      const user = await this.userRepo.findOne({ where: { email: email } });
-      if (!user) {
-        throw new NotFoundException(`Email: ${email} not found`);
-      }
-      return user;
-    } catch (error) {
-      this.logger.error(error);
-      throw new InternalServerErrorException(
-        error,
-        'Error finding user by email',
-      );
-    }
-  }
-
-  async findByEmail(email: string) {
-    try {
       const user = await this.userRepo.findOne({
         relations: ['pets', 'comments', 'addresses', 'orders'],
         where: { email: email },
