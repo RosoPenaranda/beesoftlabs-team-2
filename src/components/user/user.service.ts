@@ -1,11 +1,9 @@
 import {
-  HttpException,
-  HttpStatus,
   Injectable,
   InternalServerErrorException,
   Logger,
-  NotFoundException
-} from "@nestjs/common";
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/database/entities/user.entity';
@@ -24,10 +22,7 @@ export class UserService {
       return await this.userRepo.save(newUser);
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(
-        error,
-        'Error creating user',
-      );
+      throw new InternalServerErrorException(error, 'Error creating user');
     }
   }
 
@@ -41,10 +36,7 @@ export class UserService {
       return users;
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(
-        error,
-        'Error finding users',
-      );
+      throw new InternalServerErrorException(error, 'Error finding users');
     }
   }
 
@@ -57,10 +49,7 @@ export class UserService {
       return user;
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(
-        error,
-        'Error finding user',
-      );
+      throw new InternalServerErrorException(error, 'Error finding user');
     }
   }
 
@@ -91,10 +80,7 @@ export class UserService {
       return await this.userRepo.save(updatedUser);
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(
-        error,
-        'Error updating user',
-      );
+      throw new InternalServerErrorException(error, 'Error updating user');
     }
   }
 
@@ -105,10 +91,7 @@ export class UserService {
       return user;
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(
-        error,
-        'Error deleting user',
-      );
+      throw new InternalServerErrorException(error, 'Error deleting user');
     }
   }
 }
