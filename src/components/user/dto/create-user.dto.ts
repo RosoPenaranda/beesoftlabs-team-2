@@ -31,7 +31,7 @@ export class CreateUserDto {
   @Expose()
   profile_picture: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsInt()
   @IsPositive()
   phone: number;

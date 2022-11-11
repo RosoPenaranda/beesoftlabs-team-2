@@ -28,23 +28,26 @@ export class UserService {
 
   async findAll() {
     try {
-      const users = await this.userRepo.find();
+      const users = await this.userRepo.find({ order: { name: 'DESC' } });
 
-      if (!users) {
-        throw new NotFoundException(`Users not found`);
+      if (!users || users.length === 0) {
+        throw new NotFoundException('Users not found or empty');
       }
       return users;
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(error, 'Error finding users');
+      throw new InternalServerErrorException(error, 'Failed to find all users');
     }
   }
 
   async findById(id: string) {
     try {
-      const user = await this.userRepo.findOne({ where: { id: id } });
+      const user = await this.userRepo.findOne({
+        relations: ['pets', 'comments', 'addresses', 'orders'],
+        where: { id: id },
+      });
       if (!user) {
-        throw new NotFoundException(`User not found`);
+        throw new NotFoundException('User not found');
       }
       return user;
     } catch (error) {
@@ -74,9 +77,9 @@ export class UserService {
       const user = await this.userRepo.findOne({ where: { id } });
 
       if (!user) {
-        throw new NotFoundException(`User not found`);
+        throw new NotFoundException('User not found');
       }
-      const updatedUser = Object.assign(user, updateUser);
+      const updatedUser = { ...user, ...updateUser };
       return await this.userRepo.save(updatedUser);
     } catch (error) {
       this.logger.error(error);
