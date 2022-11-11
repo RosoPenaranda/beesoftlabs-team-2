@@ -72,7 +72,7 @@ export class UserService {
     }
   }
 
-  async updateById(id: string, updateUser: Partial<UpdateUserDto>) {
+  async updateById(id: string, updateUser: UpdateUserDto) {
     try {
       const user = await this.userRepo.findOne({ where: { id } });
 

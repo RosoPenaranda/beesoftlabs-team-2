@@ -28,11 +28,12 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsUrl()
-  @Expose()
+  @IsNotEmpty()
   profile_picture: string;
 
   @IsOptional()
   @IsInt()
   @IsPositive()
+  @IsNotEmpty()
   phone: number;
 }
