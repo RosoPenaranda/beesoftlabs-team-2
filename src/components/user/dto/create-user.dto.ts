@@ -1,10 +1,8 @@
 import { Expose } from 'class-transformer';
 import {
   IsEmail,
-  IsInt,
   IsNotEmpty,
   IsOptional,
-  IsPositive,
   IsString,
   IsUrl,
   MaxLength,
@@ -29,11 +27,12 @@ export class CreateUserDto {
   @IsOptional()
   @IsUrl()
   @IsNotEmpty()
-  profile_picture: string;
+  profile_picture?: string;
 
   @IsOptional()
-  @IsInt()
-  @IsPositive()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(250)
   @IsNotEmpty()
-  phone: number;
+  phone?: string;
 }

@@ -4,10 +4,8 @@ import { Expose } from 'class-transformer';
 >>>>>>> 5611889 (pet component created)
 import {
   IsEmail,
-  IsInt,
   IsNotEmpty,
   IsOptional,
-  IsPositive,
   IsString,
   IsUrl,
   MaxLength,
@@ -20,23 +18,24 @@ export class UpdateUserDto {
   @MinLength(3)
   @MaxLength(250)
   @IsNotEmpty()
-  email: string;
+  email?: string;
 
   @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(250)
   @IsNotEmpty()
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsUrl()
   @IsNotEmpty()
-  profile_picture: string;
+  profile_picture?: string;
 
   @IsOptional()
-  @IsInt()
-  @IsPositive()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(250)
   @IsNotEmpty()
-  phone: number;
+  phone?: string;
 }

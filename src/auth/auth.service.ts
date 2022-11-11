@@ -1,33 +1,29 @@
-import { Injectable } from "@nestjs/common";
-import { UserDetails } from "../utils/userType";
-import { UserService } from "../components/user/user.service";
+import { Injectable, Logger } from '@nestjs/common';
+import { UserDetails } from '../utils/userType';
+import { UserService } from '../components/user/user.service';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger('AuthService');
 
-  constructor(
-    private readonly UserService: UserService
-  ) {
-  }
+  constructor(private readonly userService: UserService) {}
 
   async validateUser(details: UserDetails) {
+    this.logger.log('AuthService: ', details);
 
-    console.log('AuthService: ', details);
+    const user = await this.userService.findByEmail(details.email);
 
-    const user = await this.UserService.findByEmail(details.email)
+    this.logger.log('Function validateUser:', user);
 
-    console.log('Function validateUser:', user);
+    if (user) return user;
+    this.logger.log('User not found. Creating...');
 
-    if(user) return user;
-    console.log('User not found. Creating...')
-
-    return await this.UserService.create(details)
+    return await this.userService.create(details);
   }
 
   async findUser(email: string) {
-    const user = await this.UserService.findByEmail(email);
-    console.log('findUser AuthService:', user);
+    const user = await this.userService.findByEmail(email);
+    this.logger.log('findUser AuthService:', user);
     return user;
   }
-
 }

@@ -1,7 +1,6 @@
 import {
   IsIn,
   IsNotEmpty,
-  IsNotEmptyObject,
   IsNumber,
   IsOptional,
   IsPositive,
@@ -11,7 +10,6 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { User } from 'src/database/entities/user.entity';
 import { PetSize } from 'src/utils/enums';
 
 export class UpdatePetDto {
@@ -20,19 +18,19 @@ export class UpdatePetDto {
   @IsString()
   @MinLength(1)
   @MaxLength(250)
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
   @MinLength(1)
   @MaxLength(250)
-  species: string;
+  species?: string;
 
   @IsOptional()
   @IsUrl()
   @IsNotEmpty()
-  profile_picture: string;
+  profile_picture?: string;
 
   @IsOptional()
   @IsNotEmpty()
@@ -40,14 +38,10 @@ export class UpdatePetDto {
   @Max(100)
   @IsPositive()
   @IsNotEmpty()
-  weight: number;
+  weight?: number;
 
   @IsOptional()
   @IsNotEmpty()
   @IsIn(Object.values(PetSize))
-  size: PetSize;
-
-  @IsOptional()
-  @IsNotEmptyObject()
-  owner: User;
+  size?: PetSize;
 }

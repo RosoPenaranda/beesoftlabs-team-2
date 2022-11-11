@@ -29,8 +29,8 @@ export class User {
   @Column({ type: 'text', nullable: true })
   profile_picture?: string;
 
-  @Column({ type: 'int', nullable: true })
-  phone: number;
+  @Column({ type: 'varchar', length: 250, nullable: true })
+  phone?: string;
 
   @Column({
     type: 'enum',

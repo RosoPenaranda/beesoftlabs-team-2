@@ -28,6 +28,7 @@ export class UserService {
 
   async findAll() {
     try {
+      this.logger.log('finding all users');
       const users = await this.userRepo.find({ order: { name: 'DESC' } });
 
       if (!users || users.length === 0) {
@@ -69,6 +70,22 @@ export class UserService {
         error,
         'Error finding user by email',
       );
+    }
+  }
+
+  async findByEmail(email: string) {
+    try {
+      const user = await this.userRepo.findOne({
+        relations: ['pets', 'comments', 'addresses', 'orders'],
+        where: { email: email },
+      });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      return user;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('Failed to find user');
     }
   }
 

@@ -22,13 +22,14 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get('/getUsers')
-  @UseGuards(GoogleAuthGuard)
+  @Get()
   findAll() {
+    console.log('finding all users');
     return this.userService.findAll();
   }
 
   @Get(':id')
+  @UseGuards(GoogleAuthGuard)
   findOne(@Param('id') id: string) {
     return this.userService.findById(id);
   }

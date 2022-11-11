@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pet } from 'src/database/entities/pet.entity';
+import { User } from 'src/database/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
@@ -17,9 +18,9 @@ export class PetService {
   constructor(
     @InjectRepository(Pet) private readonly petRepo: Repository<Pet>,
   ) {}
-  async create(newPet: CreatePetDto) {
+  async create(newPet: CreatePetDto, owner: User) {
     try {
-      return await this.petRepo.save(newPet);
+      return await this.petRepo.save({ ...newPet, owner: owner });
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('Failed to create new pet');
