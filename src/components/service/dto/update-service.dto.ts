@@ -6,6 +6,7 @@ import {
   IsOptional,
   IsPositive,
   IsString,
+  IsUrl,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -32,4 +33,18 @@ export class UpdateServiceDto {
   @IsNotEmpty()
   @Expose()
   price?: number;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsUrl()
+  @Expose()
+  image_url?: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(250)
+  @Expose()
+  image_alt?: string;
 }

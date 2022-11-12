@@ -17,4 +17,10 @@ export class Service {
 
   @Column({ type: 'float' })
   price: number;
+
+  @Column({ type: 'text' })
+  image_url: string;
+
+  @Column({ type: 'varchar', length: 250 })
+  image_alt: string;
 }

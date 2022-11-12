@@ -5,6 +5,7 @@ import {
   IsNumber,
   IsPositive,
   IsString,
+  IsUrl,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -29,4 +30,16 @@ export class CreateServiceDto {
   @IsNotEmpty()
   @Expose()
   price: number;
+
+  @IsNotEmpty()
+  @IsUrl()
+  @Expose()
+  image_url: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(250)
+  @Expose()
+  image_alt: string;
 }
