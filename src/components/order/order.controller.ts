@@ -27,12 +27,12 @@ export class OrderController {
     return this.orderService.create(newOrder, owner, services);
   }
 
-  @Get('/getComments')
+  @Get()
   getAllOrders() {
     return this.orderService.findAll();
   }
 
-  @Get('/getComment/:id')
+  @Get('/:id')
   getOrderById(@Param('id') id: string) {
     return this.orderService.findById(id);
   }
