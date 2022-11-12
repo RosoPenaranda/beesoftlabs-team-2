@@ -7,8 +7,7 @@ import { DatabaseConfigModule } from '../../config/database/config.module';
 
 import { OrderController } from './order.controller';
 import { AppConfigModule } from '../../config/app/config.module';
-import { Order } from "../../database/entities/order.entity";
-
+import { Order } from '../../database/entities/order.entity';
 
 @Module({
   imports: [

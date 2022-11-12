@@ -19,8 +19,8 @@ export class Pet {
   @Column({ type: 'varchar', length: 250 })
   species: string;
 
-  @Column({ type: 'text' })
-  profile_picture: string;
+  @Column({ type: 'text', nullable: true })
+  profile_picture?: string;
 
   @Column({ type: 'float' })
   weight: number;

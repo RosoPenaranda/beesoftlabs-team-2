@@ -1,7 +1,13 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
+import { Service } from 'src/database/entities/service.entity';
+import { User } from 'src/database/entities/user.entity';
 import { Order } from '../../database/entities/order.entity';
 import { CreateOrderDto } from './dto/createOrder.dto';
 import { UpdateOrderDto } from './dto/updateOrder.dto';
@@ -15,53 +21,54 @@ export class OrderService {
     private readonly orderRepo: Repository<Order>,
   ) {}
 
-  async create(orderDto: CreateOrderDto) {
+  async create(order: CreateOrderDto, customer: User, services: Service[]) {
     try {
-      return await this.orderRepo.save(orderDto);
+      const newOrder = await this.orderRepo.create(order);
+      newOrder.customer = customer;
+      newOrder.services = services;
+      return await this.orderRepo.save(newOrder);
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException(
-        'Error creating the order',
-        HttpStatus.BAD_GATEWAY,
-      );
+      throw new InternalServerErrorException('Failed to create order');
     }
   }
 
   async findAll() {
     try {
-      return await this.orderRepo.find();
+      const orders = await this.orderRepo.find();
+      if (!orders || orders.length === 0) {
+        throw new NotFoundException('Orders not found or empty');
+      }
+      return orders;
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
+      throw new InternalServerErrorException('Error finding orders');
     }
   }
 
   async findById(id: string) {
     try {
-      return await this.orderRepo.findOne({ where: { id } });
+      const order = await this.orderRepo.findOne({ where: { id: id } });
+      if (!order) {
+        throw new NotFoundException('Order not found');
+      }
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
+      throw new InternalServerErrorException('Error finding order');
     }
   }
 
-  async updateById(id: string, body: Partial<UpdateOrderDto>) {
+  async updateById(updateOrder: UpdateOrderDto, id: string) {
     try {
-      const oldOrder = await this.orderRepo.findOne({ where: { id } });
-
+      const oldOrder = await this.orderRepo.findOne({ where: { id: id } });
       if (!oldOrder) {
-        this.logger.error('Order not found, verify the information');
-        throw new HttpException(
-          'Order cant be updated',
-          HttpStatus.BAD_GATEWAY,
-        );
+        throw new NotFoundException('Order not found');
       }
-      const orderDto = Object.assign(oldOrder, body);
-
-      return await this.orderRepo.save(orderDto);
+      const order = { ...oldOrder, ...updateOrder };
+      return await this.orderRepo.save(order);
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
+      throw new InternalServerErrorException('Error updating order');
     }
   }
 
@@ -70,13 +77,13 @@ export class OrderService {
       const deleteOrder = await this.orderRepo.findOne({ where: { id } });
       if (!deleteOrder) {
         this.logger.error('Order not found, verify the information');
-        throw new HttpException('Remove failed', HttpStatus.NOT_FOUND);
+        throw new NotFoundException('Order not found');
       }
       await this.orderRepo.delete(id);
       return deleteOrder;
     } catch (error) {
       this.logger.error(error);
-      throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
+      throw new InternalServerErrorException('Error removing order');
     }
   }
 }

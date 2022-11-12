@@ -1,5 +1,4 @@
 import {
-  Put,
   Get,
   Post,
   Body,
@@ -12,10 +11,9 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { GoogleAuthGuard } from "../../auth/utils/guards";
+import { GoogleAuthGuard } from '../../auth/utils/guards';
 
-@Controller('user')
-
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -24,27 +22,20 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get('/getUsers')
-  @UseGuards(GoogleAuthGuard)
+  @Get()
   findAll() {
+    console.log('finding all users');
     return this.userService.findAll();
   }
 
   @Get(':id')
+  @UseGuards(GoogleAuthGuard)
   findOne(@Param('id') id: string) {
     return this.userService.findById(id);
   }
 
   @Patch(':id')
-  patch(
-    @Param('id') id: string,
-    @Body() updateUserDto: Partial<UpdateUserDto>,
-  ) {
-    return this.userService.updateById(id, updateUserDto);
-  }
-
-  @Put(':id')
-  put(@Param('id') id: string, @Body() updateUserDto: Required<UpdateUserDto>) {
+  patch(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.updateById(id, updateUserDto);
   }
 

@@ -6,9 +6,7 @@ import { GoogleStrategy } from './auth/utils/google.strategy';
 import { AppConfigModule } from './config/app/config.module';
 import { DatabaseConfigModule } from './config/database/config.module';
 import { TypeOrmConfigModule } from './config/typeorm/typeorm.module';
-import { AddressModule } from './components/address/address.module';
-import { CommentModule } from './components/comment/comment.module';
-import { OrderModule } from './components/order/order.module';
+
 import { User } from './database/entities/user.entity';
 import { Address } from './database/entities/address.entity';
 import { Comment } from './database/entities/comment.entity';
@@ -19,8 +17,11 @@ import { ServiceModule } from './components/service/service.module';
 import { PetModule } from './components/pet/pet.module';
 import { UserModule } from './components/user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { AuthService } from "./auth/auth.service";
-import { PassportModule } from "@nestjs/passport";
+import { AuthService } from './auth/auth.service';
+import { PassportModule } from '@nestjs/passport';
+import { AddressModule } from './components/address/address.module';
+import { CommentModule } from './components/comment/comment.module';
+import { OrderModule } from './components/order/order.module';
 
 @Module({
   imports: [
@@ -45,7 +46,7 @@ import { PassportModule } from "@nestjs/passport";
     {
       provide: 'AUTH_SERVICE',
       useClass: AuthService,
-    }
+    },
   ],
 })
 export class AppModule {}

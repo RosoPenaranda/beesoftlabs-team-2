@@ -1,11 +1,9 @@
 import {
-  HttpException,
-  HttpStatus,
   Injectable,
   InternalServerErrorException,
   Logger,
-  NotFoundException
-} from "@nestjs/common";
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/database/entities/user.entity';
@@ -24,59 +22,54 @@ export class UserService {
       return await this.userRepo.save(newUser);
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(
-        error,
-        'Error creating user',
-      );
+      throw new InternalServerErrorException(error, 'Error creating user');
     }
   }
 
   async findAll() {
     try {
-      const users = await this.userRepo.find();
+      this.logger.log('finding all users');
+      const users = await this.userRepo.find({ order: { name: 'DESC' } });
 
-      if (!users) {
-        throw new NotFoundException(`Users not found`);
+      if (!users || users.length === 0) {
+        throw new NotFoundException('Users not found or empty');
       }
       return users;
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(
-        error,
-        'Error finding users',
-      );
+      throw new InternalServerErrorException(error, 'Failed to find all users');
     }
   }
 
   async findById(id: string) {
     try {
-      const user = await this.userRepo.findOne({ where: { id: id } });
+      const user = await this.userRepo.findOne({
+        relations: ['pets', 'comments', 'addresses', 'orders'],
+        where: { id: id },
+      });
       if (!user) {
-        throw new NotFoundException(`User not found`);
+        throw new NotFoundException('User not found');
       }
       return user;
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(
-        error,
-        'Error finding user',
-      );
+      throw new InternalServerErrorException(error, 'Error finding user');
     }
   }
 
   async findByEmail(email: string) {
     try {
-      const user = await this.userRepo.findOne({ where: { email: email } });
+      const user = await this.userRepo.findOne({
+        relations: ['pets', 'comments', 'addresses', 'orders'],
+        where: { email: email },
+      });
       if (!user) {
-        throw new NotFoundException(`Email: ${email} not found`);
+        throw new NotFoundException('User not found');
       }
       return user;
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(
-        error,
-        'Error finding user by email',
-      );
+      throw new InternalServerErrorException('Failed to find user');
     }
   }
 
@@ -85,30 +78,27 @@ export class UserService {
       const user = await this.userRepo.findOne({ where: { id } });
 
       if (!user) {
-        throw new NotFoundException(`User not found`);
+        throw new NotFoundException('User not found');
       }
-      const updatedUser = Object.assign(user, updateUser);
+      const updatedUser = { ...user, ...updateUser };
       return await this.userRepo.save(updatedUser);
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(
-        error,
-        'Error updating user',
-      );
+      throw new InternalServerErrorException(error, 'Error updating user');
     }
   }
 
   async removeById(id: string) {
     try {
-      const user = await this.findById(id);
+      const user = await this.userRepo.findOne({ where: { id: id } });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
       await this.userRepo.delete(user.id);
       return user;
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(
-        error,
-        'Error deleting user',
-      );
+      throw new InternalServerErrorException(error, 'Error deleting user');
     }
   }
 }

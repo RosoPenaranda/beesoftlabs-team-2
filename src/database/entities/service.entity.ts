@@ -12,7 +12,7 @@ export class Service {
   })
   service: TypeOfService;
 
-  @Column({ type: 'varchar', length: 250 })
+  @Column({ type: 'varchar', length: 500 })
   description: string;
 
   @Column({ type: 'float' })

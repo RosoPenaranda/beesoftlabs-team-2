@@ -2,22 +2,27 @@ import { Expose } from 'class-transformer';
 import {
   Min,
   Max,
-  IsNumber,
   IsString,
   MaxLength,
   MinLength,
+  IsOptional,
+  IsInt,
+  IsPositive,
 } from 'class-validator';
 
 export class UpdateCommentDto {
-  @IsNumber()
+  @IsOptional()
+  @IsInt()
+  @IsPositive()
   @Min(0)
   @Max(5)
   @Expose()
-  points: number;
+  points?: number;
 
+  @IsOptional()
   @IsString()
   @MinLength(3)
   @MaxLength(500)
   @Expose()
-  comment: string;
+  comment?: string;
 }

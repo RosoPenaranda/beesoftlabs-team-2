@@ -12,7 +12,7 @@ import { UserRole } from '../../utils/enums';
 import { Order } from './order.entity';
 import { Pet } from './pet.entity';
 
-@Entity({ name: 'users' })
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -26,11 +26,11 @@ export class User {
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   created_at: Date;
 
-  @Column({ type: 'text' })
-  profile_picture: string;
+  @Column({ type: 'text', nullable: true })
+  profile_picture?: string;
 
-  @Column({ type: 'int', nullable: true })
-  phone: number;
+  @Column({ type: 'varchar', length: 250, nullable: true })
+  phone?: string;
 
   @Column({
     type: 'enum',

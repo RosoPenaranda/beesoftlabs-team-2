@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
 import { Address } from '../../database/entities/address.entity';
 import { CreateAddressDto } from './dto/createAddress.dto';
 import { UpdateAddressDto } from './dto/updateAddress.dto';
@@ -20,48 +21,58 @@ export class AddressService {
     private readonly addressRepo: Repository<Address>,
   ) {}
 
-  async create(address: CreateAddressDto, user: User) {
+  async create(address: CreateAddressDto, author: User) {
     try {
+      const newAddress = await this.addressRepo.create(address);
+      newAddress.owner = author;
       return await this.addressRepo.save(address);
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(error, 'Error creating address');
+      throw new InternalServerErrorException('Error creating address');
     }
   }
 
   async findAll() {
     try {
-      return await this.addressRepo.find();
+      const addresses = await this.addressRepo.find();
+      if (!addresses || addresses.length === 0) {
+        throw new NotFoundException('Addresses not found or empty');
+      }
     } catch (error) {
       this.logger.error(error);
-      throw new NotFoundException('Address not found');
+      throw new InternalServerErrorException('Error finding addresses');
     }
   }
 
   async findById(id: string) {
     try {
-      return await this.addressRepo.findOne({ where: { id } });
+      const address = await this.addressRepo.findOne({
+        relations: ['owner'],
+        where: { id: id },
+      });
+      if (!address) {
+        throw new NotFoundException('Address not found');
+      }
     } catch (error) {
       this.logger.error(error);
-      throw new NotFoundException('Address not found');
+      throw new InternalServerErrorException('Error finding address');
     }
   }
 
-  async updateById(id: string, newAddress: Partial<UpdateAddressDto>) {
+  async updateById(newAddress: UpdateAddressDto, id: string) {
     try {
       const oldAddress = await this.addressRepo.findOne({ where: { id } });
       if (!oldAddress) {
-        this.logger.error('Address not found, could not delete it');
-        throw new NotFoundException('Address not found, verify information');
+        throw new NotFoundException('Address not found');
       }
-      let updateAddress = {
+      const updateAddress = {
         ...oldAddress,
         ...newAddress,
       };
       return await this.addressRepo.save(updateAddress);
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(error, 'Error creating address');
+      throw new InternalServerErrorException('Error creating address');
     }
   }
 
@@ -69,14 +80,13 @@ export class AddressService {
     try {
       const deleteAddress = await this.addressRepo.findOne({ where: { id } });
       if (!deleteAddress) {
-        this.logger.error('Address not found, could not delete it');
-        throw new NotFoundException('Address not found, verify information');
+        throw new NotFoundException('Address not found');
       }
-      await this.addressRepo.delete(id);
+      await this.addressRepo.delete({ id: id });
       return deleteAddress;
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(error, 'Error creating address');
+      throw new InternalServerErrorException('Error creating address');
     }
   }
 }

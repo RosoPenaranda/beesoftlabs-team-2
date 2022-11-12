@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 import { CreateCommentDto } from './dto/createComment.dto';
 import { Comment } from '../../database/entities/comment.entity';
 import { User } from '../../database/entities/user.entity';
-import { UpdateCommentDto } from "./dto/updateComment.dto";
+import { UpdateCommentDto } from './dto/updateComment.dto';
 
 @Injectable()
 export class CommentService {
@@ -20,51 +20,60 @@ export class CommentService {
     private readonly commentRepo: Repository<Comment>,
   ) {}
 
-  async create(commentDto: CreateCommentDto, user: User) {
+  async create(commentDto: CreateCommentDto, author: User) {
     try {
       const newComment = await this.commentRepo.create(commentDto);
-      newComment.author = user;
-
+      newComment.author = author;
       return await this.commentRepo.save(commentDto);
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(error, 'Error creating comment');
+      throw new InternalServerErrorException('Error creating comment');
     }
   }
 
   async findAll() {
     try {
-      return await this.commentRepo.find();
+      const comments = await this.commentRepo.find();
+      if (!comments || comments.length === 0) {
+        throw new NotFoundException('Comments not found or empty');
+      }
+      return comments;
     } catch (error) {
       this.logger.error(error);
-      throw new NotFoundException('Comment not found');
+      throw new InternalServerErrorException('Error finding comments');
     }
   }
 
   async findById(id: string) {
     try {
-      return await this.commentRepo.findOne({ where: { id } });
+      const comment = await this.commentRepo.findOne({
+        relations: ['author'],
+        where: { id: id },
+      });
+      if (!comment) {
+        throw new NotFoundException('Comment not found');
+      }
+      return comment;
     } catch (error) {
       this.logger.error(error);
-      throw new NotFoundException('Comment not found');
+      throw new InternalServerErrorException('Error finding comment');
     }
   }
 
-  async updateById(id: string, newComment: Partial<UpdateCommentDto>) {
+  async updateById(id: string, newComment: UpdateCommentDto) {
     try {
       const oldComment = await this.commentRepo.findOne({ where: { id } });
       if (!oldComment) {
-        this.logger.error('Comment not found, verify the information');
         throw new NotFoundException('Comment not found');
       }
-      let updateComment = {
+      const updateComment = {
         ...oldComment,
         ...newComment,
       };
       return await this.commentRepo.save(updateComment);
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(error, 'Error updating comment');
+      throw new InternalServerErrorException('Error updating comment');
     }
   }
 
@@ -72,14 +81,13 @@ export class CommentService {
     try {
       const deleteComment = await this.commentRepo.findOne({ where: { id } });
       if (!deleteComment) {
-        this.logger.error('Comment not found');
         throw new NotFoundException('Comment not found');
       }
-      await this.commentRepo.delete(id);
+      await this.commentRepo.delete({ id: id });
       return deleteComment;
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException(error, 'Error deleting comment');
+      throw new InternalServerErrorException('Error deleting comment');
     }
   }
 }

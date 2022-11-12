@@ -6,7 +6,6 @@ import {
   IsPostalCode,
   IsString,
   MaxLength,
-  Min,
   MinLength,
 } from 'class-validator';
 
@@ -50,8 +49,9 @@ export class CreateAddressDto {
   latitude: string;
 
   @IsNotEmpty()
+  @IsString()
   @IsPostalCode()
-  @Min(6)
+  @MaxLength(50)
   @Expose()
-  postal_code: number;
+  postal_code: string;
 }
