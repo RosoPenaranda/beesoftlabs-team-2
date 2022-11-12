@@ -5,9 +5,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { Pet } from 'src/database/entities/pet.entity';
 import { User } from 'src/database/entities/user.entity';
-import { Repository } from 'typeorm';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 
@@ -20,7 +20,9 @@ export class PetService {
   ) {}
   async create(newPet: CreatePetDto, owner: User) {
     try {
-      return await this.petRepo.save({ ...newPet, owner: owner });
+      const createdPet = await this.petRepo.create(newPet);
+      createdPet.owner = owner;
+      return this.petRepo.save(createdPet);
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('Failed to create new pet');
@@ -73,7 +75,10 @@ export class PetService {
 
   async removeById(id: string) {
     try {
-      const pet = await this.findById(id);
+      const pet = await this.petRepo.findOne({ where: { id: id } });
+      if (!pet) {
+        throw new NotFoundException('Pet not found');
+      }
       await this.petRepo.delete(pet.id);
       return pet;
     } catch (error) {

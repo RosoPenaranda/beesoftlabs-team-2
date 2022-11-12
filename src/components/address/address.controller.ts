@@ -32,11 +32,8 @@ export class AddressController {
   }
 
   @Patch('/:id')
-  patchAddress(
-    @Body() newAddress: Partial<UpdateAddressDto>,
-    @Param('id') id: string,
-  ) {
-    return this.addressService.updateById(id, newAddress);
+  patchAddress(@Body() newAddress: UpdateAddressDto, @Param('id') id: string) {
+    return this.addressService.updateById(newAddress, id);
   }
 
   @Delete('/:id')

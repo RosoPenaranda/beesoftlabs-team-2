@@ -30,8 +30,8 @@ export class Address {
   @Column({ type: 'varchar' })
   latitude: string;
 
-  @Column({ type: 'int' })
-  postal_code: number;
+  @Column({ type: 'varchar', length: 50 })
+  postal_code: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   created_at: Date;

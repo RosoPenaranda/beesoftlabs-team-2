@@ -2,16 +2,18 @@ import { Expose } from 'class-transformer';
 import {
   Min,
   Max,
-  IsNumber,
   IsString,
   MaxLength,
   MinLength,
   IsNotEmpty,
+  IsInt,
+  IsPositive,
 } from 'class-validator';
 
 export class CreateCommentDto {
   @IsNotEmpty()
-  @IsNumber()
+  @IsInt()
+  @IsPositive()
   @Min(0)
   @Max(5)
   @Expose()

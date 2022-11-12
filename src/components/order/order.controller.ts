@@ -11,32 +11,38 @@ import {
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/createOrder.dto';
 import { UpdateOrderDto } from './dto/updateOrder.dto';
+import { User } from 'src/database/entities/user.entity';
+import { Service } from 'src/database/entities/service.entity';
 
-@Controller('order')
+@Controller('orders')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Post('/createOrder')
-  createOrder(@Body() orderDto: CreateOrderDto) {
-    return this.orderService.create(orderDto);
+  @Post()
+  createOrder(
+    @Body() newOrder: CreateOrderDto,
+    owner: User,
+    services: Service[],
+  ) {
+    return this.orderService.create(newOrder, owner, services);
   }
 
-  @Get('/getComments')
+  @Get()
   getAllOrders() {
     return this.orderService.findAll();
   }
 
-  @Get('/getComment/:id')
+  @Get('/:id')
   getOrderById(@Param('id') id: string) {
     return this.orderService.findById(id);
   }
 
-  @Patch('/updateComment/:id')
+  @Patch('/:id')
   updateOrder(@Body() newCommentDto: UpdateOrderDto, @Param('id') id: string) {
-    return this.orderService.updateById(id, newCommentDto);
+    return this.orderService.updateById(newCommentDto, id);
   }
 
-  @Delete('/deleteComment/:id')
+  @Delete('/:id')
   deleteOrderById(@Param('id') id: string) {
     return this.orderService.removeById(id);
   }
