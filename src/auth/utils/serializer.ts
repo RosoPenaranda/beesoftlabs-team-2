@@ -1,7 +1,7 @@
-import { PassportSerializer } from "@nestjs/passport";
-import { Inject, Injectable } from "@nestjs/common";
-import { AuthService } from "../auth.service";
-import { User } from "../../database/entities/user.entity";
+import { PassportSerializer } from '@nestjs/passport';
+import { Inject, Injectable } from '@nestjs/common';
+import { AuthService } from '../auth.service';
+import { User } from '../../database/entities/user.entity';
 
 @Injectable()
 export class SessionSerializer extends PassportSerializer {
@@ -12,14 +12,14 @@ export class SessionSerializer extends PassportSerializer {
     super();
   }
 
-  serializeUser(user: User, done: Function) {
-    console.log('Serialize method: ', user)
+  serializeUser(user: User, done: any) {
+    console.log('Serialize method: ', user);
     done(null, user);
   }
 
-  async deserializeUser(payload: User, done: Function) {
+  async deserializeUser(payload: User, done: any) {
     const user = await this.authService.findUser(payload.email);
-    console.log('Deserializer method: ', user)
+    console.log('Deserializer method: ', user);
     return user ? done(null, user) : done(null, null);
   }
 }

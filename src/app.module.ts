@@ -21,6 +21,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AddressModule } from './components/address/address.module';
 import { CommentModule } from './components/comment/comment.module';
 import { OrderModule } from './components/order/order.module';
+import { GoogleOAuthConfigModule } from './config/googleOAuth/config.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { OrderModule } from './components/order/order.module';
     TypeOrmModule.forFeature([User, Address, Comment, Order, Pet, Service]),
     DatabaseConfigModule,
     AppConfigModule,
+    GoogleOAuthConfigModule,
     PassportModule.register({
       session: true,
     }),

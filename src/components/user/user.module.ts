@@ -9,9 +9,14 @@ import { User } from '../../database/entities/user.entity';
 import { GoogleStrategy } from '../../auth/utils/google.strategy';
 import { SessionSerializer } from '../../auth/utils/serializer';
 import { AuthService } from '../../auth/auth.service';
+import { GoogleOAuthConfigModule } from 'src/config/googleOAuth/config.module';
 
 @Module({
-  imports: [TypeOrmConfigModule, TypeOrmModule.forFeature([User])],
+  imports: [
+    TypeOrmConfigModule,
+    TypeOrmModule.forFeature([User]),
+    GoogleOAuthConfigModule,
+  ],
   controllers: [UserController],
   providers: [
     DatabaseConfigModule,
