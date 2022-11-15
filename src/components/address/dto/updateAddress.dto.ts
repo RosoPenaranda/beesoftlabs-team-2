@@ -19,12 +19,11 @@ export class UpdateAddressDto {
     maxLength: 250,
     type: String,
   })
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(3)
-  @MaxLength(250)
   @Expose()
+  @MaxLength(250)
+  @MinLength(3)
+  @IsString()
+  @IsOptional()
   state?: string;
 
   @ApiProperty({
@@ -34,12 +33,12 @@ export class UpdateAddressDto {
     maxLength: 250,
     type: String,
   })
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
+  @Expose()
   @MinLength(3)
   @MaxLength(250)
-  @Expose()
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
   city?: string;
 
   @ApiProperty({
@@ -49,12 +48,12 @@ export class UpdateAddressDto {
     maxLength: 250,
     type: String,
   })
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
+  @Expose()
   @MinLength(3)
   @MaxLength(250)
-  @Expose()
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
   address?: string;
 
   @ApiProperty({
@@ -64,12 +63,12 @@ export class UpdateAddressDto {
     maxLength: 250,
     type: String,
   })
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
+  @Expose()
   @MinLength(3)
   @MaxLength(500)
-  @Expose()
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
   remark?: string;
 
   @ApiProperty({
@@ -77,10 +76,11 @@ export class UpdateAddressDto {
     required: false,
     type: String,
   })
-  @IsOptional()
-  @IsNotEmpty()
-  @IsLongitude()
   @Expose()
+  @IsLongitude()
+  @MaxLength(250)
+  @IsString()
+  @IsOptional()
   longitude?: string;
 
   @ApiProperty({
@@ -88,10 +88,11 @@ export class UpdateAddressDto {
     required: false,
     type: String,
   })
-  @IsOptional()
-  @IsNotEmpty()
-  @IsLatitude()
   @Expose()
+  @IsLatitude()
+  @MaxLength(250)
+  @IsString()
+  @IsOptional()
   latitude?: string;
 
   @ApiProperty({
