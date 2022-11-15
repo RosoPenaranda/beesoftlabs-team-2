@@ -10,7 +10,12 @@ export class GoogleOAuthService {
     if (!req.user) {
       return { msj: 'No user from google' };
     }
-
+    /* - search user in DB
+        - if no user found then register it and return JWT
+        - if user is found return JWT
+    const user = req.user as GoogleUser;
+    const userInDB = this.userService.findByEmail(user.email);
+     */
     return {
       message: 'User information from google',
       user: req.user,

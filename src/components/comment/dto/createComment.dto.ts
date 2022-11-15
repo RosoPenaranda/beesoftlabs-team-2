@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import {
   Min,
@@ -11,6 +12,13 @@ import {
 } from 'class-validator';
 
 export class CreateCommentDto {
+  @ApiProperty({
+    description: 'Points given by the user',
+    required: true,
+    minimum: 0,
+    maximum: 5,
+    type: Number,
+  })
   @IsNotEmpty()
   @IsInt()
   @IsPositive()
@@ -19,6 +27,13 @@ export class CreateCommentDto {
   @Expose()
   points: number;
 
+  @ApiProperty({
+    description: 'Comment content',
+    required: true,
+    minLength: 3,
+    maxLength: 500,
+    type: String,
+  })
   @IsNotEmpty()
   @IsString()
   @MinLength(3)

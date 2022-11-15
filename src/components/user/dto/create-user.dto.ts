@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import {
   IsEmail,
@@ -10,6 +11,13 @@ import {
 } from 'class-validator';
 
 export class CreateUserDto {
+  @ApiProperty({
+    description: "User's email",
+    required: true,
+    minLength: 3,
+    maxLength: 250,
+    type: String,
+  })
   @IsNotEmpty()
   @IsEmail()
   @MinLength(3)
@@ -17,6 +25,13 @@ export class CreateUserDto {
   @Expose()
   email: string;
 
+  @ApiProperty({
+    description: "User's name",
+    required: true,
+    minLength: 3,
+    maxLength: 250,
+    type: String,
+  })
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
@@ -24,11 +39,23 @@ export class CreateUserDto {
   @Expose()
   name: string;
 
+  @ApiProperty({
+    description: "URL of the user's profile picture",
+    required: false,
+    type: String,
+  })
   @IsOptional()
   @IsUrl()
   @IsNotEmpty()
   profile_picture?: string;
 
+  @ApiProperty({
+    description: "User's phone number",
+    required: false,
+    minLength: 1,
+    maxLength: 250,
+    type: String,
+  })
   @IsOptional()
   @IsString()
   @MinLength(1)

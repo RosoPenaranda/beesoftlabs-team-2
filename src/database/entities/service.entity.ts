@@ -12,6 +12,9 @@ export class Service {
   })
   service: TypeOfService;
 
+  @Column({ type: 'varchar', length: 250 })
+  name: string;
+
   @Column({ type: 'varchar', length: 500 })
   description: string;
 
