@@ -6,9 +6,6 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { TypeOrmConfigModule } from '../../config/typeorm/typeorm.module';
 import { User } from '../../database/entities/user.entity';
-import { GoogleStrategy } from '../../auth/utils/google.strategy';
-import { SessionSerializer } from '../../auth/utils/serializer';
-import { AuthService } from '../../auth/auth.service';
 import { GoogleOAuthConfigModule } from 'src/config/googleOAuth/config.module';
 
 @Module({
@@ -18,17 +15,7 @@ import { GoogleOAuthConfigModule } from 'src/config/googleOAuth/config.module';
     GoogleOAuthConfigModule,
   ],
   controllers: [UserController],
-  providers: [
-    DatabaseConfigModule,
-    AppConfigModule,
-    UserService,
-    GoogleStrategy,
-    SessionSerializer,
-    {
-      provide: 'AUTH_SERVICE',
-      useClass: AuthService,
-    },
-  ],
+  providers: [DatabaseConfigModule, AppConfigModule, UserService],
   exports: [UserService],
 })
 export class UserModule {}
