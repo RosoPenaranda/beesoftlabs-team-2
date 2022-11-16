@@ -1,24 +1,39 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { Request } from 'express';
 import { UserService } from 'src/components/user/user.service';
-// import { UGoogleUser } from 'src/utils/types';
+import { GoogleUser } from 'src/utils/types';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class GoogleOAuthService {
-  constructor(private readonly userService: UserService) {}
-  googleLogin(req: Request) {
+  private readonly logger = new Logger('GoogleOAuthServiceLogger');
+  constructor(
+    private readonly userService: UserService,
+    private jwtService: JwtService,
+  ) {}
+  async googleLogin(req: Request) {
     if (!req.user) {
-      return { msj: 'No user from google' };
+      throw new NotFoundException('Not received user from Google');
     }
-    /* - search user in DB
-        - if no user found then register it and return JWT
-        - if user is found return JWT
     const user = req.user as GoogleUser;
-    const userInDB = this.userService.findByEmail(user.email);
-     */
+    const userInDB = await this.validateUser(user);
     return {
-      message: 'User information from google',
-      user: req.user,
+      access_token: this.jwtService.sign({ id: userInDB.id }),
+      userInDB: userInDB,
     };
+  }
+
+  private async validateUser(user: GoogleUser) {
+    const userInDB = await this.userService.findByEmail(user.email);
+    if (!userInDB) {
+      this.logger.log('User not found, creating new');
+      const newUser = await this.userService.create({
+        email: user.email,
+        name: user.name,
+        profile_picture: user.profile_picture,
+      });
+      return newUser;
+    }
+    return userInDB;
   }
 }
