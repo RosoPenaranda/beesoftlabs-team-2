@@ -64,7 +64,8 @@ export class UserService {
         where: { email: email },
       });
       if (!user) {
-        throw new NotFoundException('User not found');
+        this.logger.log('user not found by email');
+        return null;
       }
       return user;
     } catch (error) {

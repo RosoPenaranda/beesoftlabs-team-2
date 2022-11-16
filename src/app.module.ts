@@ -12,7 +12,7 @@ import { UserModule } from './components/user/user.module';
 import { AddressModule } from './components/address/address.module';
 import { CommentModule } from './components/comment/comment.module';
 import { OrderModule } from './components/order/order.module';
-import { GoogleOAuthModule } from './auth/authentication/google/googleOAuth.module';
+import { AuthModule } from './auth/auth.module';
 
 import { User } from './database/entities/user.entity';
 import { Address } from './database/entities/address.entity';
@@ -28,7 +28,7 @@ import { Service } from './database/entities/service.entity';
     DatabaseConfigModule,
     AppConfigModule,
     GoogleOAuthConfigModule,
-    GoogleOAuthModule,
+    AuthModule,
     AddressModule,
     CommentModule,
     OrderModule,
