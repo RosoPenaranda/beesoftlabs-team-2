@@ -6,15 +6,19 @@ import {
   Param,
   Delete,
   Controller,
+  UseGuards,
 } from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/createComment.dto';
 import { User } from '../../database/entities/user.entity';
 import { UpdateCommentDto } from './dto/updateComment.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 
 @ApiTags('Comments')
+@ApiBearerAuth('JWTAuth')
 @Controller('comments')
+@UseGuards(JwtAuthGuard)
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
