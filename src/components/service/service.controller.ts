@@ -6,14 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ServiceService } from './service.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 
 @ApiTags('Services')
+@ApiBearerAuth('JWTAuth')
 @Controller('service')
+@UseGuards(JwtAuthGuard)
 export class ServiceController {
   constructor(private readonly serviceService: ServiceService) {}
 

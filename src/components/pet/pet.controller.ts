@@ -6,15 +6,19 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { PetService } from './pet.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { User } from 'src/database/entities/user.entity';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 
 @ApiTags('Pets')
+@ApiBearerAuth('JWTAuth')
 @Controller('pet')
+@UseGuards(JwtAuthGuard)
 export class PetController {
   constructor(private readonly petService: PetService) {}
 

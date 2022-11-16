@@ -10,6 +10,7 @@ async function bootstrap() {
   const logger = new Logger('/Main');
   const appConfigService: AppConfigService = app.get(AppConfigService);
 
+  app.enableCors();
   app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
@@ -18,7 +19,17 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('PetsCare API')
     .addApiKey({ name: 'apiKey', in: 'header', type: 'apiKey' })
-    .addBearerAuth(undefined, 'JWTAuth')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'JWTAuth',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
