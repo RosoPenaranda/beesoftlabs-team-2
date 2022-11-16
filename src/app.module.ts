@@ -20,6 +20,7 @@ import { Comment } from './database/entities/comment.entity';
 import { Order } from './database/entities/order.entity';
 import { Pet } from './database/entities/pet.entity';
 import { Service } from './database/entities/service.entity';
+import { JwtConfigModule } from './config/jwt/config.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { Service } from './database/entities/service.entity';
     DatabaseConfigModule,
     AppConfigModule,
     GoogleOAuthConfigModule,
+    JwtConfigModule,
     AuthModule,
     AddressModule,
     CommentModule,
