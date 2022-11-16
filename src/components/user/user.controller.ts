@@ -5,14 +5,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   Controller,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { GoogleAuthGuard } from '../../auth/utils/guards';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -29,7 +29,6 @@ export class UserController {
   }
 
   @Get(':id')
-  @UseGuards(GoogleAuthGuard)
   findOne(@Param('id') id: string) {
     return this.userService.findById(id);
   }

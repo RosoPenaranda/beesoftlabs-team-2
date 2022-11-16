@@ -11,7 +11,9 @@ import { PetService } from './pet.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { User } from 'src/database/entities/user.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Pets')
 @Controller('pet')
 export class PetController {
   constructor(private readonly petService: PetService) {}

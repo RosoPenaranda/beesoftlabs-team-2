@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import {
   IsString,
@@ -11,50 +12,94 @@ import {
 } from 'class-validator';
 
 export class UpdateAddressDto {
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(3)
-  @MaxLength(250)
+  @ApiProperty({
+    description: 'State where the city is placed',
+    required: false,
+    minLength: 3,
+    maxLength: 250,
+    type: String,
+  })
   @Expose()
+  @MaxLength(250)
+  @MinLength(3)
+  @IsString()
+  @IsOptional()
   state?: string;
 
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
+  @ApiProperty({
+    description: 'City where the user lives',
+    required: false,
+    minLength: 3,
+    maxLength: 250,
+    type: String,
+  })
+  @Expose()
   @MinLength(3)
   @MaxLength(250)
-  @Expose()
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
   city?: string;
 
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
+  @ApiProperty({
+    description: 'Address of the user',
+    required: false,
+    minLength: 3,
+    maxLength: 250,
+    type: String,
+  })
+  @Expose()
   @MinLength(3)
   @MaxLength(250)
-  @Expose()
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
   address?: string;
 
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
+  @ApiProperty({
+    description: 'Additional information about the address',
+    required: false,
+    minLength: 3,
+    maxLength: 250,
+    type: String,
+  })
+  @Expose()
   @MinLength(3)
   @MaxLength(500)
-  @Expose()
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
   remark?: string;
 
-  @IsOptional()
-  @IsNotEmpty()
-  @IsLongitude()
+  @ApiProperty({
+    description: 'Longitude of the address',
+    required: false,
+    type: String,
+  })
   @Expose()
+  @IsLongitude()
+  @MaxLength(250)
+  @IsString()
+  @IsOptional()
   longitude?: string;
 
-  @IsOptional()
-  @IsNotEmpty()
-  @IsLatitude()
+  @ApiProperty({
+    description: 'Latitude the address',
+    required: false,
+    type: String,
+  })
   @Expose()
+  @IsLatitude()
+  @MaxLength(250)
+  @IsString()
+  @IsOptional()
   latitude?: string;
 
+  @ApiProperty({
+    description: 'Postal code of the zone',
+    required: false,
+    type: String,
+  })
   @IsOptional()
   @IsString()
   @IsNotEmpty()
