@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import {
+  IsArray,
   IsDate,
   IsNotEmpty,
   IsNumber,
@@ -42,4 +43,7 @@ export class CreateOrderDto {
   @IsPositive()
   @Expose()
   total_price: number;
+
+  @IsArray()
+  services_id: string[];
 }

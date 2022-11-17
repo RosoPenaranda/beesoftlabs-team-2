@@ -11,6 +11,7 @@ import { User } from 'src/database/entities/user.entity';
 import { Order } from '../../database/entities/order.entity';
 import { CreateOrderDto } from './dto/createOrder.dto';
 import { UpdateOrderDto } from './dto/updateOrder.dto';
+import { ServiceService } from '../service/service.service';
 
 @Injectable()
 export class OrderService {
@@ -19,11 +20,20 @@ export class OrderService {
   constructor(
     @InjectRepository(Order)
     private readonly orderRepo: Repository<Order>,
+    private readonly serviceService: ServiceService,
   ) {}
 
-  async create(order: CreateOrderDto, customer: User, services: Service[]) {
+  async create(order: CreateOrderDto, customer: User) {
     try {
-      const newOrder = await this.orderRepo.create(order);
+      const { services_id, ...orderData } = order;
+      const newOrder = await this.orderRepo.create(orderData);
+      const services: Service[] = [];
+
+      for (const serviceId of services_id) {
+        const foundService = await this.serviceService.findById(serviceId);
+        services.push(foundService);
+      }
+
       newOrder.customer = customer;
       newOrder.services = services;
       return await this.orderRepo.save(newOrder);
@@ -36,9 +46,6 @@ export class OrderService {
   async findAll() {
     try {
       const orders = await this.orderRepo.find();
-      if (!orders || orders.length === 0) {
-        throw new NotFoundException('Orders not found or empty');
-      }
       return orders;
     } catch (error) {
       this.logger.error(error);
@@ -52,6 +59,19 @@ export class OrderService {
       if (!order) {
         throw new NotFoundException('Order not found');
       }
+      return order;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('Error finding order');
+    }
+  }
+
+  async findByUserId(customerId: string) {
+    try {
+      const orders = await this.orderRepo.find({
+        where: { customer: { id: customerId } },
+      });
+      return orders;
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('Error finding order');
@@ -63,6 +83,18 @@ export class OrderService {
       const oldOrder = await this.orderRepo.findOne({ where: { id: id } });
       if (!oldOrder) {
         throw new NotFoundException('Order not found');
+      }
+      if (updateOrder.services_id) {
+        const { services_id, ...orderData } = updateOrder;
+        const services: Service[] = [];
+
+        for (const serviceId of services_id) {
+          const foundService = await this.serviceService.findById(serviceId);
+          services.push(foundService);
+        }
+
+        const order = { ...oldOrder, orderData, services };
+        return await this.orderRepo.save(order);
       }
       const order = { ...oldOrder, ...updateOrder };
       return await this.orderRepo.save(order);

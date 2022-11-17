@@ -35,9 +35,7 @@ export class AddressService {
   async findAll() {
     try {
       const addresses = await this.addressRepo.find();
-      if (!addresses || addresses.length === 0) {
-        throw new NotFoundException('Addresses not found or empty');
-      }
+      return addresses;
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('Error finding addresses');
@@ -53,6 +51,19 @@ export class AddressService {
       if (!address) {
         throw new NotFoundException('Address not found');
       }
+      return address;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('Error finding address');
+    }
+  }
+
+  async findByUserId(userId: string) {
+    try {
+      const addresses = await this.addressRepo.find({
+        where: { owner: { id: userId } },
+      });
+      return addresses;
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('Error finding address');

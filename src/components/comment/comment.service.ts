@@ -33,10 +33,7 @@ export class CommentService {
 
   async findAll() {
     try {
-      const comments = await this.commentRepo.find();
-      if (!comments || comments.length === 0) {
-        throw new NotFoundException('Comments not found or empty');
-      }
+      const comments = await this.commentRepo.find({ relations: ['author'] });
       return comments;
     } catch (error) {
       this.logger.error(error);
@@ -54,6 +51,18 @@ export class CommentService {
         throw new NotFoundException('Comment not found');
       }
       return comment;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('Error finding comment');
+    }
+  }
+
+  async findByUserId(authorId: string) {
+    try {
+      const comments = await this.commentRepo.find({
+        where: { author: { id: authorId } },
+      });
+      return comments;
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('Error finding comment');

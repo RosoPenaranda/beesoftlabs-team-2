@@ -30,10 +30,6 @@ export class UserService {
     try {
       this.logger.log('finding all users');
       const users = await this.userRepo.find({ order: { name: 'DESC' } });
-
-      if (!users || users.length === 0) {
-        throw new NotFoundException('Users not found or empty');
-      }
       return users;
     } catch (error) {
       this.logger.error(error);
@@ -63,10 +59,6 @@ export class UserService {
         relations: ['pets', 'comments', 'addresses', 'orders'],
         where: { email: email },
       });
-      if (!user) {
-        this.logger.log('user not found by email');
-        return null;
-      }
       return user;
     } catch (error) {
       this.logger.error(error);

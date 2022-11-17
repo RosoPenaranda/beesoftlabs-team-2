@@ -38,6 +38,11 @@ export class AddressController {
     return this.addressService.findById(id);
   }
 
+  @Get('ownerId/:ownerId')
+  getAllAddressByUserId(@Param('ownerId') ownerId: string) {
+    return this.addressService.findByUserId(ownerId);
+  }
+
   @Patch('/:id')
   patchAddress(@Body() newAddress: UpdateAddressDto, @Param('id') id: string) {
     return this.addressService.updateById(newAddress, id);
