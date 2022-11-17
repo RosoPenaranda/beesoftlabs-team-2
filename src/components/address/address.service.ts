@@ -21,10 +21,10 @@ export class AddressService {
     private readonly addressRepo: Repository<Address>,
   ) {}
 
-  async create(address: CreateAddressDto, author: User) {
+  async create(address: CreateAddressDto, owner: User) {
     try {
       const newAddress = await this.addressRepo.create(address);
-      newAddress.owner = author;
+      newAddress.owner = owner;
       return await this.addressRepo.save(address);
     } catch (error) {
       this.logger.error(error);

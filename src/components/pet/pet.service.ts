@@ -36,6 +36,7 @@ export class PetService {
       if (!pets || pets.length === 0) {
         throw new NotFoundException('Pets not found or empty');
       }
+      return pets;
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('Failed to find all pets');
