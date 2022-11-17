@@ -7,6 +7,7 @@ import {
   Delete,
   Controller,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,7 +18,6 @@ import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 @ApiTags('Users')
 @ApiBearerAuth('JWTAuth')
 @Controller('users')
-@UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -27,11 +27,13 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.userService.findAll();
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
     return this.userService.findById(id);
   }

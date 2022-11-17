@@ -6,15 +6,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfigModule } from '../../config/database/config.module';
 import { AppConfigModule } from '../../config/app/config.module';
 import { Address } from '../../database/entities/address.entity';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule,
     TypeOrmConfigModule,
     TypeOrmModule.forFeature([Address]),
     DatabaseConfigModule,
     AppConfigModule,
   ],
   controllers: [AddressController],
-  providers: [AddressService],
+  providers: [
+    AddressService
+  ],
 })
 export class AddressModule {}

@@ -13,13 +13,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: config.jwtIgnoreExpiration,
-      secretOrKey: config.jwtSecret,
+      ignoreExpiration: false,
+      secretOrKey: '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',
     });
   }
 
-  async validate(payload: IJwtPayload) {
+  async validate(payload: any) {
+    console.log(payload)
     const user = this.userService.findByEmail(payload.email);
+    console.log(user)
     if (!user) {
       throw new NotFoundException('Unauthorized token');
     }

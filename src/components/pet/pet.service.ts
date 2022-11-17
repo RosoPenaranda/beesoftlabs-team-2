@@ -21,6 +21,7 @@ export class PetService {
   async create(newPet: CreatePetDto, owner: User) {
     try {
       const createdPet = await this.petRepo.create(newPet);
+      
       createdPet.owner = owner;
       return this.petRepo.save(createdPet);
     } catch (error) {

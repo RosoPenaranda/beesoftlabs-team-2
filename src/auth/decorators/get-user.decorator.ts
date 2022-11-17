@@ -6,7 +6,10 @@ import {
 
 export const GetUser = createParamDecorator(
   (data: string, ctx: ExecutionContext) => {
-    const req = ctx.switchToHttp().getRequest();
+
+    console.log(ctx.switchToHttp().getRequest().headers)
+    const req = ctx.switchToHttp().getRequest().headers
+    /* console.log('token', req) */
     const user = req.user;
 
     if (!user) throw new UnauthorizedException('User not found in request');

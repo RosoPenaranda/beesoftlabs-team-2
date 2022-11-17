@@ -21,6 +21,8 @@ import { Order } from './database/entities/order.entity';
 import { Pet } from './database/entities/pet.entity';
 import { Service } from './database/entities/service.entity';
 import { JwtConfigModule } from './config/jwt/config.module';
+import { JwtService } from '@nestjs/jwt';
+import { JwtAuthGuard } from './auth/jwt/jwt-auth.guard';
 
 @Module({
   imports: [

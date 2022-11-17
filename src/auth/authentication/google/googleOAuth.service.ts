@@ -12,6 +12,7 @@ export class GoogleOAuthService {
     private jwtService: JwtService,
   ) {}
   async googleLogin(req: Request) {
+    console.log('here')
     if (!req.user) {
       throw new NotFoundException('Not received user from Google');
     }
@@ -29,6 +30,7 @@ export class GoogleOAuthService {
   }
 
   private async validateUser(user: GoogleUser) {
+    console.log('here')
     const userInDB = await this.userService.findByEmail(user.email);
     if (!userInDB) {
       this.logger.log('User not found, creating new');

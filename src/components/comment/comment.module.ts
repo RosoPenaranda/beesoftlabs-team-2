@@ -6,9 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfigModule } from '../../config/database/config.module';
 import { AppConfigModule } from '../../config/app/config.module';
 import { Comment } from '../../database/entities/comment.entity';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule,
     TypeOrmConfigModule,
     TypeOrmModule.forFeature([Comment]),
     DatabaseConfigModule,

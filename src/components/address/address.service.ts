@@ -25,6 +25,7 @@ export class AddressService {
     try {
       const newAddress = await this.addressRepo.create(address);
       newAddress.owner = owner;
+      console.log(newAddress)
       return await this.addressRepo.save(address);
     } catch (error) {
       this.logger.error(error);
