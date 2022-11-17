@@ -18,7 +18,12 @@ export class GoogleOAuthService {
     const user = req.user as GoogleUser;
     const userInDB = await this.validateUser(user);
     return {
-      access_token: this.jwtService.sign({ id: userInDB.id }),
+      access_token: this.jwtService.sign({
+        id: userInDB.id,
+        email: userInDB.email,
+        name: userInDB.name,
+        roles: userInDB.roles,
+      }),
       userInDB: userInDB,
     };
   }

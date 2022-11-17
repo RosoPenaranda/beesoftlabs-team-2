@@ -14,6 +14,7 @@ import { CreateAddressDto } from './dto/createAddress.dto';
 import { UpdateAddressDto } from './dto/updateAddress.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
+import { GetUser } from 'src/auth/decorators/get-user.decorator';
 
 @ApiTags('Addresses')
 @ApiBearerAuth('JWTAuth')
@@ -23,8 +24,8 @@ export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
   @Post()
-  createAddress(@Body() addressDto: CreateAddressDto, user: User) {
-    return this.addressService.create(addressDto, user);
+  createAddress(@Body() addressDto: CreateAddressDto, @GetUser() owner: User) {
+    return this.addressService.create(addressDto, owner);
   }
 
   @Get()
