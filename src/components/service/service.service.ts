@@ -30,9 +30,6 @@ export class ServiceService {
   async findAll() {
     try {
       const services = await this.serviceRepo.find();
-      if (!services || services.length === 0) {
-        throw new NotFoundException('services not found or empty');
-      }
       return services;
     } catch (error) {
       this.logger.error(error);

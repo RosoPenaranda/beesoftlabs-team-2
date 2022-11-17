@@ -38,6 +38,11 @@ export class CommentController {
     return this.commentService.findById(id);
   }
 
+  @Get('/authorId/:authorId')
+  getCommentsByAuthorId(@Param('authorId') authorId: string) {
+    return this.commentService.findByUserId(authorId);
+  }
+
   @Patch('/:id')
   updateComment(
     @Body() newCommentDto: UpdateCommentDto,

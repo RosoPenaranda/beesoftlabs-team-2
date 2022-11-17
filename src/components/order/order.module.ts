@@ -8,6 +8,7 @@ import { DatabaseConfigModule } from '../../config/database/config.module';
 import { OrderController } from './order.controller';
 import { AppConfigModule } from '../../config/app/config.module';
 import { Order } from '../../database/entities/order.entity';
+import { ServiceModule } from '../service/service.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { Order } from '../../database/entities/order.entity';
     TypeOrmModule.forFeature([Order]),
     DatabaseConfigModule,
     AppConfigModule,
+    ServiceModule,
   ],
   controllers: [OrderController],
   providers: [OrderService],

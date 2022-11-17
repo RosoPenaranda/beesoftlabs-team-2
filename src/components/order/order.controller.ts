@@ -13,7 +13,6 @@ import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/createOrder.dto';
 import { UpdateOrderDto } from './dto/updateOrder.dto';
 import { User } from 'src/database/entities/user.entity';
-import { Service } from 'src/database/entities/service.entity';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
@@ -26,12 +25,8 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
-  createOrder(
-    @Body() newOrder: CreateOrderDto,
-    @GetUser() owner: User,
-    services: Service[],
-  ) {
-    return this.orderService.create(newOrder, owner, services);
+  createOrder(@Body() newOrder: CreateOrderDto, @GetUser() owner: User) {
+    return this.orderService.create(newOrder, owner);
   }
 
   @Get()
@@ -42,6 +37,11 @@ export class OrderController {
   @Get('/:id')
   getOrderById(@Param('id') id: string) {
     return this.orderService.findById(id);
+  }
+
+  @Get('customerId/:customerId')
+  getOrdersByUserId(@Param('customerId') customerId: string) {
+    return this.orderService.findById(customerId);
   }
 
   @Patch('/:id')

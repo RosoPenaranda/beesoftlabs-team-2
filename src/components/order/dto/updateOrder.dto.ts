@@ -1,6 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { IsDate, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import {
+  IsArray,
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+} from 'class-validator';
 
 export class UpdateOrderDto {
   @ApiProperty({
@@ -36,4 +42,7 @@ export class UpdateOrderDto {
   @IsNumber()
   @Expose()
   total_price?: number;
+
+  @IsArray()
+  services_id: string[];
 }

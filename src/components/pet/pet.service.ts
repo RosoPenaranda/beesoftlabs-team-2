@@ -32,10 +32,6 @@ export class PetService {
   async findAll() {
     try {
       const pets = await this.petRepo.find({ order: { name: 'DESC' } });
-
-      if (!pets || pets.length === 0) {
-        throw new NotFoundException('Pets not found or empty');
-      }
       return pets;
     } catch (error) {
       this.logger.error(error);
@@ -46,13 +42,25 @@ export class PetService {
   async findById(id: string) {
     try {
       const pet = await this.petRepo.findOne({
-        relations: ['user'],
+        relations: ['owner'],
         where: { id: id },
       });
       if (!pet) {
         throw new NotFoundException('Pet not found');
       }
       return pet;
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('Failed to find pet');
+    }
+  }
+
+  async findByUserId(ownerId: string) {
+    try {
+      const pets = await this.petRepo.find({
+        where: { owner: { id: ownerId } },
+      });
+      return pets;
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('Failed to find pet');
