@@ -13,13 +13,13 @@ import { CreateCommentDto } from './dto/createComment.dto';
 import { User } from '../../database/entities/user.entity';
 import { UpdateCommentDto } from './dto/updateComment.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Comments')
 @ApiBearerAuth('JWTAuth')
 @Controller('comments')
-@UseGuards(JwtAuthGuard)
+@UseGuards(AuthGuard('JwtHeaderStrategy'))
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 

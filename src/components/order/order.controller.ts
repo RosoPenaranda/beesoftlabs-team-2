@@ -14,13 +14,13 @@ import { CreateOrderDto } from './dto/createOrder.dto';
 import { UpdateOrderDto } from './dto/updateOrder.dto';
 import { User } from 'src/database/entities/user.entity';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Orders')
 @ApiBearerAuth('JWTAuth')
 @Controller('orders')
-@UseGuards(JwtAuthGuard)
+@UseGuards(AuthGuard('JwtHeaderStrategy'))
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 

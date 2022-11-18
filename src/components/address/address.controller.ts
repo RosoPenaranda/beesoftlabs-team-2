@@ -13,18 +13,19 @@ import { User } from '../../database/entities/user.entity';
 import { CreateAddressDto } from './dto/createAddress.dto';
 import { UpdateAddressDto } from './dto/updateAddress.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Addresses')
 @ApiBearerAuth('JWTAuth')
 @Controller('addresses')
-@UseGuards(JwtAuthGuard)
+@UseGuards(AuthGuard('JwtHeaderStrategy'))
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
   @Post()
   createAddress(@Body() addressDto: CreateAddressDto, @GetUser() owner: User) {
+    console.log('address owner: ', owner);
     return this.addressService.create(addressDto, owner);
   }
 

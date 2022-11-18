@@ -24,7 +24,7 @@ export class CommentService {
     try {
       const newComment = await this.commentRepo.create(commentDto);
       newComment.author = author;
-      return await this.commentRepo.save(commentDto);
+      return await this.commentRepo.save(newComment);
     } catch (error) {
       this.logger.error(error);
       throw new InternalServerErrorException('Error creating comment');

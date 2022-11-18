@@ -6,9 +6,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Service } from 'src/database/entities/service.entity';
 import { DatabaseConfigModule } from 'src/config/database/config.module';
 import { AppConfigModule } from 'src/config/app/config.module';
+import { AuthModule } from 'src/auth/auth.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
+    AuthModule,
+    UserModule,
     TypeOrmConfigModule,
     TypeOrmModule.forFeature([Service]),
     DatabaseConfigModule,

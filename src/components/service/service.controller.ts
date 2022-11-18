@@ -12,12 +12,12 @@ import { ServiceService } from './service.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Services')
 @ApiBearerAuth('JWTAuth')
 @Controller('services')
-@UseGuards(JwtAuthGuard)
+@UseGuards(AuthGuard('JwtHeaderStrategy'))
 export class ServiceController {
   constructor(private readonly serviceService: ServiceService) {}
 
