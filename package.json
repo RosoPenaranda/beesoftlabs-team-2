@@ -26,7 +26,7 @@
     "migration:generate": "npm run typeorm migration:generate -- -n ",
     "migration:run": "npm run typeorm migration:run -- -t each",
     "migration:revert": "npm run typeorm migration:revert",
-    "prepare": "npm install -omit=dev && npm run build && npm run migration:run"
+    "prepare": "npm install --omit=dev && npm run build && npm run migration:run"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
