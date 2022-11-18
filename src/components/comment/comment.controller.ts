@@ -15,6 +15,8 @@ import { UpdateCommentDto } from './dto/updateComment.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
+import { AuthRole } from 'src/auth/decorators/auth-role.decorator';
+import { UserRole } from 'src/utils/enums';
 
 @ApiTags('Comments')
 @ApiBearerAuth('JWTAuth')
@@ -28,6 +30,7 @@ export class CommentController {
     return this.commentService.create(commentDto, author);
   }
 
+  @AuthRole(UserRole.ADMIN)
   @Get()
   getAllComments() {
     return this.commentService.findAll();
@@ -43,6 +46,7 @@ export class CommentController {
     return this.commentService.findByUserId(authorId);
   }
 
+  @AuthRole(UserRole.ADMIN)
   @Patch('/:id')
   updateComment(
     @Body() newCommentDto: UpdateCommentDto,
@@ -51,6 +55,7 @@ export class CommentController {
     return this.commentService.updateById(id, newCommentDto);
   }
 
+  @AuthRole(UserRole.ADMIN)
   @Delete('/:id')
   deleteCommentById(@Param('id') id: string) {
     return this.commentService.removeById(id);

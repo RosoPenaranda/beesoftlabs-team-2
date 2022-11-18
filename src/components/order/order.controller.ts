@@ -16,6 +16,8 @@ import { User } from 'src/database/entities/user.entity';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
+import { AuthRole } from 'src/auth/decorators/auth-role.decorator';
+import { UserRole } from 'src/utils/enums';
 
 @ApiTags('Orders')
 @ApiBearerAuth('JWTAuth')
@@ -29,6 +31,7 @@ export class OrderController {
     return this.orderService.create(newOrder, owner);
   }
 
+  @AuthRole(UserRole.ADMIN)
   @Get()
   getAllOrders() {
     return this.orderService.findAll();
@@ -44,11 +47,13 @@ export class OrderController {
     return this.orderService.findById(customerId);
   }
 
+  @AuthRole(UserRole.ADMIN)
   @Patch('/:id')
   updateOrder(@Body() newCommentDto: UpdateOrderDto, @Param('id') id: string) {
     return this.orderService.updateById(newCommentDto, id);
   }
 
+  @AuthRole(UserRole.ADMIN)
   @Delete('/:id')
   deleteOrderById(@Param('id') id: string) {
     return this.orderService.removeById(id);

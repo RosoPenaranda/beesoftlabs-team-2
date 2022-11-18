@@ -15,6 +15,8 @@ import { UpdateAddressDto } from './dto/updateAddress.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
+import { AuthRole } from 'src/auth/decorators/auth-role.decorator';
+import { UserRole } from 'src/utils/enums';
 
 @ApiTags('Addresses')
 @ApiBearerAuth('JWTAuth')
@@ -29,6 +31,7 @@ export class AddressController {
     return this.addressService.create(addressDto, owner);
   }
 
+  @AuthRole(UserRole.ADMIN)
   @Get()
   getAllAddress() {
     return this.addressService.findAll();
