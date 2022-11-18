@@ -3,7 +3,6 @@ import { Expose, Transform, TransformFnParams } from 'class-transformer';
 import {
   IsLatitude,
   IsLongitude,
-  IsNotEmpty,
   IsPostalCode,
   IsString,
   MaxLength,
@@ -18,11 +17,11 @@ export class CreateAddressDto {
     maxLength: 250,
     type: String,
   })
-  @Expose()
   @MaxLength(250)
   @MinLength(3)
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  // @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsString()
+  @Expose()
   state: string;
 
   @ApiProperty({
@@ -32,11 +31,11 @@ export class CreateAddressDto {
     maxLength: 250,
     type: String,
   })
-  @Expose()
   @MaxLength(250)
   @MinLength(3)
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  // @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsString()
+  @Expose()
   city: string;
 
   @ApiProperty({
@@ -46,12 +45,11 @@ export class CreateAddressDto {
     maxLength: 250,
     type: String,
   })
-  @Expose()
   @MaxLength(250)
   @MinLength(3)
+  // @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsString()
-  @IsNotEmpty()
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @Expose()
   address: string;
 
   @ApiProperty({
@@ -61,12 +59,11 @@ export class CreateAddressDto {
     maxLength: 250,
     type: String,
   })
-  @Expose()
-  @MaxLength(500)
+  @MaxLength(250)
   @MinLength(3)
+  // @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsString()
-  @IsNotEmpty()
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @Expose()
   remark: string;
 
   @ApiProperty({
@@ -74,12 +71,11 @@ export class CreateAddressDto {
     required: true,
     type: String,
   })
-  @Expose()
   @IsLongitude()
   @MaxLength(50)
+  // @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsString()
-  @IsNotEmpty()
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @Expose()
   longitude: string;
 
   @ApiProperty({
@@ -87,12 +83,11 @@ export class CreateAddressDto {
     required: true,
     type: String,
   })
-  @Expose()
   @IsLatitude()
   @MaxLength(50)
+  // @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsString()
-  @IsNotEmpty()
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @Expose()
   latitude: string;
 
   @ApiProperty({
@@ -100,11 +95,10 @@ export class CreateAddressDto {
     required: true,
     type: String,
   })
-  @Expose()
   @IsPostalCode()
   @MaxLength(50)
+  // @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsString()
-  @IsNotEmpty()
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @Expose()
   postal_code: string;
 }

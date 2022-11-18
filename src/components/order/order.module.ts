@@ -9,9 +9,13 @@ import { OrderController } from './order.controller';
 import { AppConfigModule } from '../../config/app/config.module';
 import { Order } from '../../database/entities/order.entity';
 import { ServiceModule } from '../service/service.module';
+import { AuthModule } from 'src/auth/auth.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
+    AuthModule,
+    UserModule,
     TypeOrmConfigModule,
     TypeOrmModule.forFeature([Order]),
     DatabaseConfigModule,

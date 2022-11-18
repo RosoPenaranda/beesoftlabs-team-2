@@ -13,13 +13,13 @@ import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { User } from 'src/database/entities/user.entity';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Pets')
 @ApiBearerAuth('JWTAuth')
 @Controller('pets')
-@UseGuards(JwtAuthGuard)
+@UseGuards(AuthGuard('JwtHeaderStrategy'))
 export class PetController {
   constructor(private readonly petService: PetService) {}
 
