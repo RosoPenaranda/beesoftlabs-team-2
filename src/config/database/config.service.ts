@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
+import { get } from 'http';
 
 @Injectable()
 export class DatabaseConfigService {
@@ -31,5 +32,9 @@ export class DatabaseConfigService {
 
   get logger(): string {
     return this.configService.get<string>('DATABASE_LOGGER');
+  }
+
+  get ssl(): boolean {
+    return this.configService.get<string>('DATABASE_SSL') === 'true';
   }
 }

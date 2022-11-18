@@ -18,6 +18,7 @@ export const getTypeOrmModuleOptions = (
     logging: config.logging,
     logger: config.logger,
     autoLoadEntities: true,
+    ssl: config.ssl,
   } as TypeOrmModuleOptions);
 
 @Module({
