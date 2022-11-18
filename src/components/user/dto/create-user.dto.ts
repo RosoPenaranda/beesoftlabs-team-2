@@ -18,11 +18,11 @@ export class CreateUserDto {
     maxLength: 250,
     type: String,
   })
-  @IsNotEmpty()
-  @IsEmail()
   @MinLength(3)
   @MaxLength(250)
   @Expose()
+  @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @ApiProperty({
@@ -32,11 +32,11 @@ export class CreateUserDto {
     maxLength: 250,
     type: String,
   })
-  @IsNotEmpty()
-  @IsString()
   @MinLength(3)
   @MaxLength(250)
   @Expose()
+  @IsString()
+  @IsNotEmpty()
   name: string;
 
   @ApiProperty({
