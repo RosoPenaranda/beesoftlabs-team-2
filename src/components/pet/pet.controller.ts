@@ -15,6 +15,8 @@ import { User } from 'src/database/entities/user.entity';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
+import { AuthRole } from 'src/auth/decorators/auth-role.decorator';
+import { UserRole } from 'src/utils/enums';
 
 @ApiTags('Pets')
 @ApiBearerAuth('JWTAuth')
@@ -28,6 +30,7 @@ export class PetController {
     return this.petService.create(createPetDto, owner);
   }
 
+  @AuthRole(UserRole.ADMIN)
   @Get()
   findAll() {
     return this.petService.findAll();
