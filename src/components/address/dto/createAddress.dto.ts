@@ -3,6 +3,7 @@ import { Expose, Transform, TransformFnParams } from 'class-transformer';
 import {
   IsLatitude,
   IsLongitude,
+  IsOptional,
   IsPostalCode,
   IsString,
   MaxLength,
@@ -17,11 +18,11 @@ export class CreateAddressDto {
     maxLength: 250,
     type: String,
   })
+  @Expose()
   @MaxLength(250)
   @MinLength(3)
   // @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsString()
-  @Expose()
   state: string;
 
   @ApiProperty({
@@ -31,11 +32,11 @@ export class CreateAddressDto {
     maxLength: 250,
     type: String,
   })
+  @Expose()
   @MaxLength(250)
   @MinLength(3)
   // @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsString()
-  @Expose()
   city: string;
 
   @ApiProperty({
@@ -45,11 +46,11 @@ export class CreateAddressDto {
     maxLength: 250,
     type: String,
   })
+  @Expose()
   @MaxLength(250)
   @MinLength(3)
   // @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsString()
-  @Expose()
   address: string;
 
   @ApiProperty({
@@ -59,46 +60,50 @@ export class CreateAddressDto {
     maxLength: 250,
     type: String,
   })
+  @Expose()
   @MaxLength(250)
   @MinLength(3)
   // @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsString()
-  @Expose()
-  remark: string;
+  @IsOptional()
+  remark?: string;
 
   @ApiProperty({
     description: 'Longitude of the address',
     required: true,
     type: String,
   })
+  @Expose()
   @IsLongitude()
   @MaxLength(50)
   // @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsString()
-  @Expose()
-  longitude: string;
+  @IsOptional()
+  longitude?: string;
 
   @ApiProperty({
     description: 'Latitude the address',
     required: true,
     type: String,
   })
+  @Expose()
   @IsLatitude()
   @MaxLength(50)
   // @Transform(({ value }: TransformFnParams) => value?.trim())
   @IsString()
-  @Expose()
-  latitude: string;
+  @IsOptional()
+  latitude?: string;
 
   @ApiProperty({
     description: 'Postal code of the zone',
     required: true,
     type: String,
   })
-  @IsPostalCode()
+  @Expose()
   @MaxLength(50)
   // @Transform(({ value }: TransformFnParams) => value?.trim())
+  @IsPostalCode()
   @IsString()
-  @Expose()
-  postal_code: string;
+  @IsOptional()
+  postal_code?: string;
 }

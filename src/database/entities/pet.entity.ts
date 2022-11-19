@@ -22,6 +22,9 @@ export class Pet {
   @Column({ type: 'text', nullable: true })
   profile_picture?: string;
 
+  @Column({ type: 'int', nullable: true })
+  age: number;
+
   @Column({ type: 'float' })
   weight: number;
 
