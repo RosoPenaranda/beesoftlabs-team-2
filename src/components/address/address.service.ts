@@ -25,7 +25,6 @@ export class AddressService {
     try {
       const newAddress = await this.addressRepo.create(address);
       newAddress.owner = owner;
-      console.log('address owner', newAddress.owner);
       return await this.addressRepo.save(newAddress);
     } catch (error) {
       this.logger.error(error);
@@ -62,12 +61,13 @@ export class AddressService {
   async findByUserId(userId: string) {
     try {
       const addresses = await this.addressRepo.find({
+        relations: ['owner'],
         where: { owner: { id: userId } },
       });
       return addresses;
     } catch (error) {
       this.logger.error(error);
-      throw new InternalServerErrorException('Error finding address');
+      throw new InternalServerErrorException('Error finding addresses');
     }
   }
 

@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import {
   IsArray,
-  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
@@ -41,12 +40,18 @@ export class UpdateOrderDto {
     minimum: 0,
     type: Number,
   })
-  @IsOptional()
-  @IsNotEmpty()
-  @IsNumber()
   @Expose()
+  @IsNumber()
+  @IsOptional()
   total_price?: number;
 
+  @ApiProperty({
+    description: 'Array containing the provided services',
+    required: true,
+    type: String,
+  })
+  @Expose()
   @IsArray()
-  services_id: string[];
+  @IsOptional()
+  services_id?: string[];
 }
