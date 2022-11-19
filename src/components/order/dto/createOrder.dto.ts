@@ -48,6 +48,11 @@ export class CreateOrderDto {
   @Expose()
   total_price: number;
 
+  @ApiProperty({
+    description: 'Array containing the provided services',
+    required: true,
+    type: String,
+  })
   @IsArray()
   services_id: string[];
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Transform, TransformFnParams } from 'class-transformer';
+import { Expose /* Transform, TransformFnParams */ } from 'class-transformer';
 import {
   IsLatitude,
   IsLongitude,
@@ -55,7 +55,7 @@ export class CreateAddressDto {
 
   @ApiProperty({
     description: 'Additional information about the address',
-    required: true,
+    required: false,
     minLength: 3,
     maxLength: 250,
     type: String,
@@ -70,7 +70,7 @@ export class CreateAddressDto {
 
   @ApiProperty({
     description: 'Longitude of the address',
-    required: true,
+    required: false,
     type: String,
   })
   @Expose()
@@ -83,7 +83,7 @@ export class CreateAddressDto {
 
   @ApiProperty({
     description: 'Latitude the address',
-    required: true,
+    required: false,
     type: String,
   })
   @Expose()
@@ -96,7 +96,7 @@ export class CreateAddressDto {
 
   @ApiProperty({
     description: 'Postal code of the zone',
-    required: true,
+    required: false,
     type: String,
   })
   @Expose()

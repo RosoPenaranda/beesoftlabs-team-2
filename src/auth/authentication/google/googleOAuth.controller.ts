@@ -2,13 +2,16 @@ import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { GoogleOAuthService } from './googleOAuth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('GoogleOAuth')
 @Controller('/auth/google/')
 export class GoogleOAuthController {
   constructor(private readonly googleOAuthService: GoogleOAuthService) {}
 
+  @ApiOperation({
+    summary: 'Redirects to google log in page',
+  })
   @Get('/login')
   @UseGuards(AuthGuard('google'))
   async googleLogIn(@Req() req: Request) {
