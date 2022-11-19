@@ -14,16 +14,16 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserService {
   private readonly logger = new Logger('UserService');
 
-
-  
   constructor(
     @InjectRepository(User) private readonly userRepo: Repository<User>,
   ) {}
 
   async create(newUser: CreateUserDto) {
     try {
-      const user = await this.findByEmail(newUser.email)
-      if(user) { return user}
+      const user = await this.findByEmail(newUser.email);
+      if (user) {
+        return user;
+      }
       return await this.userRepo.save(newUser);
     } catch (error) {
       this.logger.error(error);

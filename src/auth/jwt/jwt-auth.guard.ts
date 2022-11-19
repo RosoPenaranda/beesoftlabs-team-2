@@ -37,9 +37,9 @@ export class JwtAuthGuard extends PassportStrategy(
         const newEntry = {
           name: googleuser.name,
           email: googleuser.email,
-          profile_picture: googleuser.picture
-        }
-        console.log('New entry',newEntry);
+          profile_picture: googleuser.picture,
+        };
+        console.log('New entry', newEntry);
         const newUser = await this.userService.create(newEntry);
 
         req.user = newUser;
