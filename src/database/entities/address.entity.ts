@@ -21,8 +21,8 @@ export class Address {
   @Column({ type: 'varchar', length: 250 })
   address: string;
 
-  @Column({ type: 'varchar', length: 500 })
-  remark: string;
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  remark?: string;
 
   @Column({ type: 'varchar', length: 250, nullable: true })
   longitude?: string;
@@ -30,8 +30,8 @@ export class Address {
   @Column({ type: 'varchar', length: 250, nullable: true })
   latitude?: string;
 
-  @Column({ type: 'varchar', length: 50 })
-  postal_code: string;
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  postal_code?: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   created_at: Date;

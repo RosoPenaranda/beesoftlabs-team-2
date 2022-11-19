@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsIn,
+  IsInt,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -9,6 +10,7 @@ import {
   IsUrl,
   Max,
   MaxLength,
+  Min,
   MinLength,
 } from 'class-validator';
 import { PetSize } from 'src/utils/enums';
@@ -41,6 +43,19 @@ export class UpdatePetDto {
   @MinLength(1)
   @MaxLength(250)
   species?: string;
+
+  @ApiProperty({
+    description: "Pet' age",
+    required: false,
+    minLength: 1,
+    maxLength: 30,
+    type: Number,
+  })
+  @Min(1)
+  @Max(30)
+  @IsInt()
+  @IsOptional()
+  age?: number;
 
   @ApiProperty({
     description: "URL of the pet's picture",

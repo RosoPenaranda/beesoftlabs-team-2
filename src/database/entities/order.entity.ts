@@ -15,11 +15,11 @@ export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'date', nullable: true })
-  start_time?: Date;
+  @Column({ type: 'varchar', length: 250, nullable: true })
+  start_time?: string;
 
-  @Column({ type: 'date', nullable: true })
-  end_time?: Date;
+  @Column({ type: 'varchar', length: 250, nullable: true })
+  end_time?: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

@@ -37,7 +37,6 @@ export class UpdateAddressDto {
   @MinLength(3)
   @MaxLength(250)
   @IsString()
-  @IsNotEmpty()
   @IsOptional()
   city?: string;
 
@@ -52,7 +51,6 @@ export class UpdateAddressDto {
   @MinLength(3)
   @MaxLength(250)
   @IsString()
-  @IsNotEmpty()
   @IsOptional()
   address?: string;
 
@@ -67,7 +65,6 @@ export class UpdateAddressDto {
   @MinLength(3)
   @MaxLength(500)
   @IsString()
-  @IsNotEmpty()
   @IsOptional()
   remark?: string;
 
@@ -102,7 +99,6 @@ export class UpdateAddressDto {
   })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @IsPostalCode()
   @MaxLength(50)
   postal_code?: string;
